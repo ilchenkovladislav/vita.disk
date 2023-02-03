@@ -1,0 +1,107 @@
+.table {
+  width: 900px;
+  display: grid;
+  gap: 20px;
+}
+
+.header {
+  display: grid;
+  grid-template-columns:
+    40px minmax(200px, 2.5fr) 120px minmax(140px, 1fr)
+    100px;
+  align-items: center;
+  gap: 20px;
+}
+
+.search {
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.body {
+  list-style: none;
+  display: grid;
+  gap: 20px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns:
+    40px minmax(200px, 2.5fr) 120px minmax(140px, 1fr)
+    100px;
+  align-items: center;
+  gap: 20px;
+}
+
+.project {
+  display: grid;
+  grid-template-columns: min-content 20px max-content 20px 1fr;
+  grid-template-areas:
+    'img . title title title'
+    'img . date dot files';
+  align-items: center;
+}
+
+.projectImg {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+}
+
+.imgLink {
+  grid-area: img;
+  display: block;
+  width: 60px;
+  height: 60px;
+}
+
+.projectTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.titleLink {
+  grid-area: title;
+  text-decoration: none;
+  align-self: end;
+}
+
+.projectDateCreate {
+  grid-area: date;
+}
+
+.projectDot {
+  grid-area: dot;
+  justify-self: center;
+}
+
+.projectFiles {
+  grid-area: files;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+
+  button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    svg {
+      width: 17px;
+      height: 17px;
+    }
+  }
+}
