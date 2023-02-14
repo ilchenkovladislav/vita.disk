@@ -1,0 +1,165 @@
+.folders {
+  list-style: none;
+  display: grid;
+  width: 300px;
+  background-color: #fcfcfc;
+
+  li {
+    border-bottom: 1px solid #eee;
+    padding: 15px 20px;
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.folder {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.header {
+  padding: 40px;
+  display: grid;
+  grid-template-columns: max-content 1fr max-content max-content;
+  align-items: center;
+  gap: 20px;
+}
+
+.tabs {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
+  gap: 20px;
+
+  li {
+    &:hover:not(.current) {
+      border-bottom: 3px solid #777;
+    }
+  }
+
+  .current {
+    border-bottom: 3px solid lightblue;
+  }
+
+  a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-text);
+  }
+
+  button {
+    border: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font: inherit;
+  }
+}
+
+.folderList {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.folderItem {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  align-items: center;
+  background-color: #eee;
+
+  a {
+    padding: 20px;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #999;
+    justify-self: center;
+  }
+}
+
+.addFolder {
+  background-color: transparent;
+  border: none;
+  padding: 20px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.images {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.item {
+  position: relative;
+}
+
+.img {
+  max-width: 100%;
+}
+
+.control {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0s 0.15s;
+  opacity: 0;
+}
+
+.item:hover .control,
+.item:hover .downloads,
+.item:hover .check {
+  visibility: visible;
+  transition: opacity 0.15s, visibility 0s;
+  opacity: 1;
+}
+
+.downloads {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: #eee;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0s 0.15s;
+  opacity: 0;
+}
+
+.check {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0s 0.15s;
+  opacity: 0;
+}
