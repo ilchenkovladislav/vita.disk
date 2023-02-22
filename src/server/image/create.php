@@ -7,6 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include_once "../config/database.php";
 include_once "../objects/image.php";
+require "../utility/createServerResponse.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -27,16 +28,16 @@ if (
     if (count($errors) === 0) {
         http_response_code(201);
 
-        echo json_encode(array("message" => "Изображения добавлены."), JSON_UNESCAPED_UNICODE);
+        echo createServerResponse(201, "Изображения добавлены.");
     } else {
         http_response_code(503);
 
-        echo json_encode(array("message" => "Невозможно добавить изображение."), JSON_UNESCAPED_UNICODE);
+        echo createServerResponse(503, "Невозможно добавить изображение.");
     }
 } else {
     http_response_code(400);
 
-    echo json_encode(array("message" => "Невозможно добавить изображение. Данные неполные."), JSON_UNESCAPED_UNICODE);
+    echo createServerResponse(400, "Невозможно добавить изображение. Данные неполные.");
 }
 
 function createRecords($image, $dir, &$errors)

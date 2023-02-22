@@ -7,6 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include_once "../config/database.php";
 include_once "../objects/image.php";
+require "../utility/createServerResponse.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -31,9 +32,9 @@ foreach ($data as $i) {
 if ($res) {
     http_response_code(200);
 
-    echo json_encode(array("message" => "Изображения обновлены"), JSON_UNESCAPED_UNICODE);
+    echo createServerResponse(200, "Изображения обновлены");
 } else {
     http_response_code(503);
 
-    echo json_encode(array("message" => "Невозможно обновить одно или несколько изображений"), JSON_UNESCAPED_UNICODE);
+    echo createServerResponse(503, "Невозможно обновить одно или несколько изображений");
 }

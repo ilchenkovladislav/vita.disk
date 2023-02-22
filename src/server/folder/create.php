@@ -7,6 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include_once "../config/database.php";
 include_once "../objects/folder.php";
+require "../utility/createServerResponse.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -30,18 +31,19 @@ if (
     if ($folder->create()) {
         http_response_code(201);
 
-        echo json_encode(array("message" => "Папка создана."), JSON_UNESCAPED_UNICODE);
+        $folder->id = $folder->getLastId();
+        echo createServerResponse(201, "Папка создана.", $folder);
 
         createFolder($folder->projectId, $folder->getLastId());
     } else {
         http_response_code(503);
 
-        echo json_encode(array("message" => "Невозможно создать папку."), JSON_UNESCAPED_UNICODE);
+        echo createServerResponse(503, "Невозможно создать папку.");
     }
 } else {
     http_response_code(400);
 
-    echo json_encode(array("message" => "Невозможно создать папку. Данные неполные."), JSON_UNESCAPED_UNICODE);
+    echo createServerResponse(400, "Невозможно создать папку. Данные неполные.");
 }
 
 function createFolder($projectId, $folderId)

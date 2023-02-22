@@ -4,6 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 include_once "../config/database.php";
 include_once "../objects/folder.php";
+require "../utility/createServerResponse.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -15,7 +16,6 @@ $num = $stmt->rowCount();
 
 if ($num > 0) {
     $folders_arr = array();
-    $folders_arr["records"] = array();
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
@@ -29,14 +29,14 @@ if ($num > 0) {
             "projectId" => $projectId
         );
 
-        array_push($folders_arr["records"], $folder_item);
+        array_push($folders_arr, $folder_item);
     }
 
     http_response_code(200);
 
-    echo json_encode($folders_arr);
+    echo createServerResponse(200, "Успешно", $folders_arr);
 } else {
     http_response_code(404);
 
-    echo json_encode(array("message" => "Папки не найдены."), JSON_UNESCAPED_UNICODE);
+    echo createServerResponse(404, "Папки не найдены.");
 }

@@ -7,6 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include_once "../config/database.php";
 include_once "../objects/image.php";
+require "../utility/createServerResponse.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -27,9 +28,9 @@ $image->folderId = $data->folderId;
 if ($image->update()) {
     http_response_code(200);
 
-    echo json_encode(array("message" => "Изображение обновлено"), JSON_UNESCAPED_UNICODE);
+    echo createServerResponse(200, "Изображение обновлено");
 } else {
     http_response_code(503);
 
-    echo json_encode(array("message" => "Невозможно обновить изображение"), JSON_UNESCAPED_UNICODE);
+    echo createServerResponse(503, "Невозможно обновить изображение");
 }

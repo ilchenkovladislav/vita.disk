@@ -8,6 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include_once "../config/database.php";
 include_once "../objects/project.php";
 include_once "../objects/folder.php";
+require "../utility/createServerResponse.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -34,19 +35,21 @@ if (
     if ($project->create()) {
         http_response_code(201);
 
-        echo json_encode(array("message" => "Проект создан."), JSON_UNESCAPED_UNICODE);
+        $project->id = $project->getLastId();
+
+        echo createServerResponse(201, "Проект создан.", $project);
 
         createDirectory($project->getLastId());
         createFolder($folder, $project);
     } else {
         http_response_code(503);
 
-        echo json_encode(array("message" => "Невозможно создать проект."), JSON_UNESCAPED_UNICODE);
+        echo createServerResponse(503, "Невозможно создать проект.");
     }
 } else {
     http_response_code(400);
 
-    echo json_encode(array("message" => "Невозможно создать проект. Данные неполные."), JSON_UNESCAPED_UNICODE);
+    echo createServerResponse(400, "Невозможно создать проект. Данные неполные.");
 }
 
 

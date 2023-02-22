@@ -7,6 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include_once "../config/database.php";
 include_once "../objects/image.php";
+require "../utility/createServerResponse.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -20,9 +21,9 @@ $image->id = $data->id;
 if ($image->delete()) {
     http_response_code(200);
 
-    echo json_encode(array("message" => "Изображение удалено"), JSON_UNESCAPED_UNICODE);
+    echo createServerResponse(200, "Изображение удалено");
 } else {
     http_response_code(503);
 
-    echo json_encode(array("message" => "Не удалось удалить изображение"));
+    echo createServerResponse(503, "Не удалось удалить изображение");
 }

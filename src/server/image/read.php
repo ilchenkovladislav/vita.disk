@@ -4,6 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 include_once "../config/database.php";
 include_once "../objects/image.php";
+require "../utility/createServerResponse.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -35,9 +36,9 @@ if ($num > 0) {
 
     http_response_code(200);
 
-    echo json_encode($images_arr);
+    echo createServerResponse(200, "Успешно", $images_arr);
 } else {
     http_response_code(404);
 
-    echo json_encode(array("message" => "Изображения не найдены."), JSON_UNESCAPED_UNICODE);
+    echo createServerResponse(404, "Изображения не найдены.");
 }
