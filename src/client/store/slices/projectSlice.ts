@@ -12,6 +12,7 @@ export interface IProjectItem {
   dateShooting: string;
   cover: string;
   sequence: number;
+  numberImages?: number;
 }
 
 interface ProjectState {

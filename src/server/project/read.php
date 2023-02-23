@@ -27,7 +27,8 @@ if ($num > 0) {
             "dateCreation" => $dateCreation,
             "dateShooting" => $dateShooting,
             "cover" => $cover,
-            "sequence" => $sequence
+            "sequence" => $sequence,
+            "numberImages" => $project->getTotalNumberImages($id)
         );
 
         array_push($projects_arr, $project_item);

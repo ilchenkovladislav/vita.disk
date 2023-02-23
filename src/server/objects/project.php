@@ -121,4 +121,19 @@ class Project
     {
         return $this->conn->lastInsertId();
     }
+
+    function getTotalNumberImages($id)
+    {
+        $query = "SELECT COUNT(*) as count FROM images WHERE folderId IN (SELECT id FROM folders WHERE projectId = :id)";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":id", $id);
+
+        if ($stmt->execute()) {
+            return (int) $stmt->fetch(PDO::FETCH_ASSOC)["count"];
+        }
+
+        return false;
+    }
 }
