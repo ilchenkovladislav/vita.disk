@@ -1,11 +1,5 @@
-import {
-  createSlice,
-  PayloadAction,
-  createAsyncThunk,
-  isRejectedWithValue
-} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
-import { ProjectItem } from '../../components/ProjectItem/ProjectItem';
 import { ServerResponse, Id } from '../types';
 
 const _urlbase = 'http://vita.disk/src/server/project';
