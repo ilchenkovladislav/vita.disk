@@ -10,7 +10,7 @@ import { ServerResponse, Id } from '../types';
 
 const _urlbase = 'http://vita.disk/src/server/project';
 
-export interface ProjectItem {
+export interface IProjectItem {
   id?: number;
   title: string;
   link: string;
@@ -21,7 +21,7 @@ export interface ProjectItem {
 }
 
 interface ProjectState {
-  items: ProjectItem[];
+  items: IProjectItem[];
   status: 'init' | 'loading' | 'error' | 'success';
   error: string | unknown;
 }
@@ -40,21 +40,21 @@ export const projectSlice = createSlice({
     builder
       .addCase(
         getProjects.fulfilled,
-        (state, action: PayloadAction<ProjectItem[]>) => {
+        (state, action: PayloadAction<IProjectItem[]>) => {
           state.status = 'success';
           state.items = action.payload;
         }
       )
       .addCase(
         addProject.fulfilled,
-        (state, action: PayloadAction<ProjectItem>) => {
+        (state, action: PayloadAction<IProjectItem>) => {
           state.status = 'success';
           state.items.push(action.payload);
         }
       )
       .addCase(
         updateProject.fulfilled,
-        (state, action: PayloadAction<ProjectItem>) => {
+        (state, action: PayloadAction<IProjectItem>) => {
           state.status = 'success';
 
           const idx = state.items.findIndex(
@@ -95,7 +95,7 @@ const createAppAsyncThunk = createAsyncThunk.withTypes<{
   rejectValue: string;
 }>();
 
-const getProjects = createAppAsyncThunk<ProjectItem[]>(
+const getProjects = createAppAsyncThunk<IProjectItem[]>(
   'projects/getProjects',
   async (_, { rejectWithValue }) =>
     await axios
@@ -106,7 +106,7 @@ const getProjects = createAppAsyncThunk<ProjectItem[]>(
       )
 );
 
-const addProject = createAppAsyncThunk<ProjectItem, ProjectItem>(
+const addProject = createAppAsyncThunk<IProjectItem, IProjectItem>(
   'projects/addProject',
   async (project, { rejectWithValue }) =>
     await axios
@@ -117,9 +117,9 @@ const addProject = createAppAsyncThunk<ProjectItem, ProjectItem>(
       )
 );
 
-const updateProject = createAppAsyncThunk<ProjectItem, ProjectItem>(
+const updateProject = createAppAsyncThunk<IProjectItem, IProjectItem>(
   'projects/updateProject',
-  async (project: ProjectItem, { rejectWithValue }) =>
+  async (project: IProjectItem, { rejectWithValue }) =>
     await axios
       .post<ServerResponse>(`${_urlbase}/update.php`, JSON.stringify(project))
       .then((res) => res.data.records)
