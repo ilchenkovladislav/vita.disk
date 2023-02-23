@@ -8,7 +8,7 @@ export interface IProjectItem {
   id?: number;
   title: string;
   link: string;
-  dateCreating: string;
+  dateCreation: string;
   dateShooting: string;
   cover: string;
   sequence: number;
