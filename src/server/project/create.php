@@ -20,14 +20,13 @@ $data = json_decode(file_get_contents("php://input"));
 if (
     !empty($data->title) &&
     !empty($data->link) &&
-    !empty($data->dateCreation) &&
     !empty($data->dateShooting) &&
     !empty($data->cover) &&
     !empty($data->sequence)
 ) {
     $project->title = $data->title;
     $project->link = $data->link;
-    $project->dateCreation = $data->dateCreation;
+    $project->dateCreation = date("Y-m-d");
     $project->dateShooting = $data->dateShooting;
     $project->cover = $data->cover;
     $project->sequence = $data->sequence;
@@ -35,9 +34,18 @@ if (
     if ($project->create()) {
         http_response_code(201);
 
-        $project->id = $project->getLastId();
+        $project_item = array(
+            "id" => $project->getLastId(),
+            "title" => $project->title,
+            "link" => $project->link,
+            "dateCreation" => $project->dateCreation,
+            "dateShooting" => $project->dateShooting,
+            "cover" => $project->cover,
+            "sequence" => $project->sequence,
+            "numberImages" => 0
+        );
 
-        echo createServerResponse(201, "Проект создан.", $project);
+        echo createServerResponse(201, "Проект создан.", $project_item);
 
         createDirectory($project->getLastId());
         createFolder($folder, $project);
