@@ -1,0 +1,42 @@
+.toggleGroup {
+  display: grid;
+  align-items: center;
+  grid-template-columns: max-content max-content;
+  gap: 15px;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  width: 50px;
+  border: none;
+  border-radius: 50px;
+}
+
+.toggleOn {
+  composes: toggle;
+  background-color: #1e78bb;
+}
+
+.toggleOff {
+  composes: toggle;
+  background-color: #ddd;
+}
+
+.toggleRound {
+  display: block;
+  height: 18px;
+  width: 18px;
+  background-color: #fff;
+  transition: transform 0.2s;
+  border-radius: 50%;
+}
+
+.toggleOn .toggleRound {
+  transform: translateX(27px);
+}
+
+.toggleOff .toggleRound {
+  transform: translateX(5px);
+}
