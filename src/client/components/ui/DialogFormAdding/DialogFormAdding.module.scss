@@ -1,0 +1,81 @@
+.addBtn {
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 30px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  border-radius: 10px;
+  font-size: 16px;
+
+  &:hover {
+    border: 1px solid #ddd;
+  }
+}
+
+.dialog {
+  position: relative;
+}
+
+.wrapper {
+  position: fixed;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  inset: 0;
+  background-color: rgba(#000000, 0.1);
+}
+
+.panel {
+  position: relative;
+  background-color: var(--background-color);
+  box-shadow: 0px 10px 50px #aaa;
+  border-radius: 5px;
+  width: 500px;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.title {
+  padding: 30px 20px;
+  font-weight: normal;
+  font-size: 22px;
+}
+
+.form {
+  display: grid;
+  gap: 30px;
+  padding: 30px 20px;
+}
+
+.formGroup {
+  display: grid;
+  gap: 5px;
+
+  input {
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid var(--border-color);
+  }
+}
+
+.footer {
+  display: grid;
+  padding: 15px 20px;
+  justify-content: end;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+
+  input {
+    border: none;
+    background-color: var(--primary-color);
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+  }
+}
