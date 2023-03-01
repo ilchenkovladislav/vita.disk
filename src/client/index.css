@@ -1,7 +1,9 @@
 :root {
   --text-color: #222;
-  --background-color: #fafafa;
+  --background-color: #fff;
+  --border-color: #eee;
   --link-color: blue;
+  --primary-color: #1e78bb;
 
   font-family: Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -32,15 +34,19 @@ body {
 @media (prefers-color-scheme: light) {
   :root {
     --text-color: #222;
-    --background-color: #fafafa;
+    --background-color: #fff;
+    --border-color: #eee;
     --link-color: blue;
+    --primary-color: #1e78bb;
   }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text-color: #fafafa;
+    --text-color: #fff;
     --background-color: #222;
+    --border-color: #666;
     --link-color: lightblue;
+    --primary-color: #1e78bb;
   }
 }
