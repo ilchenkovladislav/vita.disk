@@ -16,7 +16,7 @@
 
 .toggleOn {
   composes: toggle;
-  background-color: #1e78bb;
+  background-color: var(--primary-color);
 }
 
 .toggleOff {
