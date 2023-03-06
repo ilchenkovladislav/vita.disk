@@ -9,22 +9,32 @@ import { Toggle } from '../../form/Toggle/Toggle';
 import { IProjectItem } from '../../../store/slices/projectSlice';
 import { useActionCreators } from '../../../store/hooks';
 import { projectAsyncActions } from '../../../store/slices/projectSlice';
+import { useStateSelector } from '../../../store/hooks';
 
 import styles from './DialogFormAdding.module.scss';
 
+export type FormProjectItem = Omit<
+  IProjectItem,
+  'id' | 'dateCreation' | 'numberImages'
+>;
+
 export const DialogFormAdding: React.FunctionComponent = () => {
+  const numberProjects = useStateSelector(
+    (state) => state.project.items.length
+  );
+
   const asyncActions = useActionCreators(projectAsyncActions);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isToggleOn, setIsToggleOn] = useState(true);
 
-  const [form, setForm] = useState<IProjectItem>({
+  const [form, setForm] = useState<FormProjectItem>({
     title: '',
     link: '',
     dateShooting: '',
     cover:
       'https://img-20.wfolio.com/lOlf4eEjCXFJ4dZiEdZftJYQVFwtal4J7N5ouMA8B9c/rs:fit:640:0:0/cb:v2/aHR0cDovL2Rpc2su/d2ZvbGlvLnJ1L2Rp/c2tzLzQxMTYzL3By/b2plY3RzLzIxMTk2/MjQvcHJldmlld3Mv/MTY3NzE1NTcyN18z/OGJlMTIuanBn.jpg',
-    sequence: 12
+    sequence: 0
   });
 
   useEffect(() => {
@@ -45,7 +55,7 @@ export const DialogFormAdding: React.FunctionComponent = () => {
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    asyncActions.addProject(form);
+    asyncActions.addProject({ ...form, sequence: numberProjects });
     setIsOpen(false);
     clearForm();
   }
