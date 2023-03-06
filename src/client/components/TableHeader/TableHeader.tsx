@@ -1,9 +1,23 @@
+import { useState } from 'react';
+
 import { FaArrowsAlt } from 'react-icons/fa';
-import { BiSort } from 'react-icons/bi';
+
+import { SortingMenu } from '../ui/SortingMenu/SortingMenu';
 
 import styles from './TableHeader.module.scss';
 
-export const TableHeader = () => {
+type TableHeaderProps = {
+  onChangeSearch: (searchString: string) => void;
+};
+
+export const TableHeader: React.FC<TableHeaderProps> = ({ onChangeSearch }) => {
+  const [searchString, setSearchString] = useState('');
+
+  function inputHandler(e: React.FormEvent<HTMLInputElement>) {
+    setSearchString(e.currentTarget.value);
+    onChangeSearch(e.currentTarget.value);
+  }
+
   return (
     <div className={styles.header}>
       <FaArrowsAlt />
@@ -11,12 +25,13 @@ export const TableHeader = () => {
         className={styles.search}
         type="search"
         placeholder="название проекта"
+        onChange={inputHandler}
+        value={searchString}
       />
       <p>дата съемки</p>
       <p>ссылка на диск</p>
-      <div className={styles.sort}>
-        <BiSort /> сортировка
-      </div>
+
+      <SortingMenu />
     </div>
   );
 };
