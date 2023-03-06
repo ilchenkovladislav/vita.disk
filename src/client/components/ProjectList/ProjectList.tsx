@@ -1,15 +1,22 @@
 import { ProjectItem } from '../../components/ProjectItem/ProjectItem';
+import { IProjectItem } from '../../store/slices/projectSlice';
+import { DialogFormAdding } from '../ui/DialogFormAdding/DialogFormAdding';
 
 import styles from './ProjectList.module.scss';
 
-export const ProjectList = () => {
+type ProjectListProps = {
+  projects: IProjectItem[];
+};
+
+export const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
   return (
     <ul className={styles.body}>
-      <button>добавить проект +</button>
-
-      <li className={styles.row}>
-        <ProjectItem />
-      </li>
+      <DialogFormAdding />
+      {projects.map((project) => (
+        <li className={styles.row} key={project.id}>
+          <ProjectItem project={project} />
+        </li>
+      ))}
     </ul>
   );
 };
