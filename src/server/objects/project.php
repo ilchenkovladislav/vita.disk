@@ -12,6 +12,7 @@ class Project
     public $dateShooting;
     public $cover;
     public $sequence;
+    public $numberImages;
 
     public function __construct($db)
     {

@@ -21,8 +21,7 @@ if (
     !empty($data->title) &&
     !empty($data->link) &&
     !empty($data->dateShooting) &&
-    !empty($data->cover) &&
-    !empty($data->sequence)
+    !empty($data->cover)
 ) {
     $project->title = $data->title;
     $project->link = $data->link;
@@ -30,24 +29,16 @@ if (
     $project->dateShooting = $data->dateShooting;
     $project->cover = $data->cover;
     $project->sequence = $data->sequence;
+    $project->numberImages = 0;
 
     if ($project->create()) {
         http_response_code(201);
 
-        $project_item = array(
-            "id" => $project->getLastId(),
-            "title" => $project->title,
-            "link" => $project->link,
-            "dateCreation" => $project->dateCreation,
-            "dateShooting" => $project->dateShooting,
-            "cover" => $project->cover,
-            "sequence" => $project->sequence,
-            "numberImages" => 0
-        );
+        $project->id = $project->getLastId();
 
-        echo createServerResponse(201, "Проект создан.", $project_item);
+        echo createServerResponse(201, "Проект создан.", $project);
 
-        createDirectory($project->getLastId());
+        createDirectory($project->id);
         createFolder($folder, $project);
     } else {
         http_response_code(503);

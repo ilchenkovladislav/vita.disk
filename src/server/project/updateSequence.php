@@ -12,13 +12,17 @@ require "../utility/createServerResponse.php";
 $database = new Database();
 $db = $database->getConnection();
 
-$project = new Project($db);
+
 
 $data = json_decode(file_get_contents("php://input"));
 
 $res = true;
 
+$res_projects = [];
+
 foreach ($data as $p) {
+    $project = new Project($db);
+
     $project->id = $p->id;
     $project->sequence = $p->sequence;
 
@@ -27,12 +31,14 @@ foreach ($data as $p) {
     if (!$res) {
         break;
     }
+
+    array_push($res_projects, $project);
 }
 
 if ($res) {
     http_response_code(200);
 
-    echo createServerResponse(200, "Проекты обновлены");
+    echo createServerResponse(200, "Проекты обновлены", $res_projects);
 } else {
     http_response_code(503);
 
