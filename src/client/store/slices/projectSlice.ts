@@ -1,18 +1,20 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { ServerResponse, Id } from '../types';
+import { RootStore } from '../types';
+import { FormProjectItem } from '../../components/ui/DialogFormAdding/DialogFormAdding';
 
 const _urlbase = 'http://vita.disk/src/server/project';
 
 export interface IProjectItem {
-  id?: number;
+  readonly id: number;
   title: string;
   link: string;
-  dateCreation: string;
+  readonly dateCreation: string;
   dateShooting: string;
   cover: string;
   sequence: number;
-  numberImages?: number;
+  readonly numberImages: number;
 }
 
 interface ProjectState {
@@ -37,7 +39,9 @@ export const projectSlice = createSlice({
         getProjects.fulfilled,
         (state, action: PayloadAction<IProjectItem[]>) => {
           state.status = 'success';
-          state.items = action.payload;
+          state.items = [...action.payload].sort(
+            (a, b) => a.sequence - b.sequence
+          );
         }
       )
       .addCase(
@@ -70,6 +74,22 @@ export const projectSlice = createSlice({
 
         state.items.splice(idx, 1);
       })
+      .addCase(
+        updateProjectSequence.fulfilled,
+        (state, action: PayloadAction<IProjectItem[]>) => {
+          state.status = 'success';
+
+          for (const payload of action.payload) {
+            const item = state.items.find((el) => el.id === payload.id);
+
+            if (item?.sequence) {
+              item.sequence = payload.sequence;
+            }
+          }
+
+          state.items.sort((a, b) => a.sequence - b.sequence);
+        }
+      )
       .addMatcher(
         (action) => action.type.endsWith('/pending'),
         (state) => {
@@ -88,6 +108,7 @@ export const projectSlice = createSlice({
 
 const createAppAsyncThunk = createAsyncThunk.withTypes<{
   rejectValue: string;
+  state: RootStore;
 }>();
 
 const getProjects = createAppAsyncThunk<IProjectItem[]>(
@@ -97,11 +118,13 @@ const getProjects = createAppAsyncThunk<IProjectItem[]>(
       .get<ServerResponse>(`${_urlbase}/read.php`)
       .then((res) => res.data.records)
       .catch((err: AxiosError<ServerResponse>) =>
-        rejectWithValue(`${err.message}. Не получается добавить проект`)
+        rejectWithValue(
+          `${err.message}. Не получается получить данные по проектам`
+        )
       )
 );
 
-const addProject = createAppAsyncThunk<IProjectItem, IProjectItem>(
+const addProject = createAppAsyncThunk<IProjectItem, FormProjectItem>(
   'projects/addProject',
   async (project, { rejectWithValue }) =>
     await axios
@@ -125,20 +148,48 @@ const updateProject = createAppAsyncThunk<IProjectItem, IProjectItem>(
 
 const deleteProject = createAppAsyncThunk<Id, Id>(
   'projects/deleteProject',
-  async (id, { rejectWithValue }) =>
+  async (id, { rejectWithValue, dispatch, getState }) =>
     await axios
       .post<ServerResponse>(`${_urlbase}/delete.php`, { id })
-      .then((res) => res.data.records)
+      .then((res) => {
+        const idx = getState().project.items.findIndex(
+          (project) => project.id === res.data.records
+        );
+
+        const projects = getState()
+          .project.items.slice(idx + 1)
+          .map((el) => ({ ...el, sequence: el.sequence - 1 }));
+
+        dispatch(updateProjectSequence(projects));
+
+        return res.data.records;
+      })
       .catch((err: AxiosError<ServerResponse>) =>
         rejectWithValue(`${err.message}. Не получается удалить проект`)
       )
 );
 
+const updateProjectSequence = createAppAsyncThunk<
+  IProjectItem[],
+  IProjectItem[]
+>('projects/updateSequence', async (projects, { rejectWithValue }) => {
+  return await axios
+    .post<ServerResponse>(`${_urlbase}/updateSequence.php`, projects)
+    .then((res) => res.data.records)
+    .catch((err: AxiosError<ServerResponse>) => {
+      console.log(err.message);
+      rejectWithValue(
+        `${err.message}. Не получается изменить очередность проектов`
+      );
+    });
+});
+
 export const projectAsyncActions = {
   getProjects,
   addProject,
   updateProject,
-  deleteProject
+  deleteProject,
+  updateProjectSequence
 };
 
 export const { reducer: projectReducer, actions: projectActions } =
