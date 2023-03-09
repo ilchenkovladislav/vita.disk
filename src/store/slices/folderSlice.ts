@@ -6,7 +6,7 @@ import { baseServerUrl } from 'store/baseUrl';
 const _urlbase = `${baseServerUrl}/folder`;
 
 interface FolderItem {
-  id?: number;
+  readonly id: number;
   title: string;
   link: string;
   description: string;

@@ -6,7 +6,7 @@ import { baseServerUrl } from 'store/baseUrl';
 const _urlbase = `${baseServerUrl}/image`;
 
 export interface ImageItem {
-  id?: number;
+  readonly id: number;
   title: string;
   path: string;
   numberDownloads: number;
