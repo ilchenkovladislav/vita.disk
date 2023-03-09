@@ -1,0 +1,6 @@
+.page {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 20px;
+}
