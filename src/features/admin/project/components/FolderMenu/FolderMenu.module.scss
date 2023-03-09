@@ -1,0 +1,19 @@
+.btn {
+  font: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--text-color);
+  border: none;
+  width: 30px;
+  height: 30px;
+  background-color: #bbb;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.container {
+  position: relative;
+  justify-self: center;
+}

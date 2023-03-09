@@ -10,6 +10,8 @@ import { IProjectItem, projectAsyncActions } from 'store/slices/projectSlice';
 import { useAppDispatch } from 'store/hooks';
 import { AppMenu, MenuItem } from 'components/ui/AppMenu/AppMenu';
 
+import styles from './SortingMenu.module.scss';
+
 type CompareFunction = (
   projectA: IProjectItem,
   projectB: IProjectItem
@@ -102,5 +104,13 @@ export const SortingMenu: React.FC = () => {
     });
   }
 
-  return <AppMenu btnTitle={`${icon} ${label}`} menuItems={menuItems} />;
+  return (
+    <AppMenu
+      btnTitle={label}
+      btnIcon={icon}
+      menuItems={menuItems}
+      btnStyle={styles.btn}
+      containerStyle={styles.container}
+    />
+  );
 };

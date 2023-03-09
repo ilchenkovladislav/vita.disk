@@ -2,22 +2,6 @@
   background-color: red;
 }
 
-.dropdown-container {
-  position: relative;
-  margin-left: auto;
-}
-
-.dropdown-button {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background-color: transparent;
-  color: var(--text-color);
-  border: none;
-  cursor: pointer;
-  font: inherit;
-}
-
 .dropdown-list {
   position: absolute;
   display: block;
@@ -27,10 +11,11 @@
   box-shadow: 0 10px 30px rgba(#000, 0.06);
   border-radius: 5px;
   overflow: hidden;
+  z-index: 1;
 }
 
 .dropdown-item {
-  padding: 15px 30px;
+  padding: 15px 20px;
   background-color: #fff;
   border: none;
   cursor: pointer;
@@ -39,7 +24,7 @@
   text-align: left;
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 10px;
   border-bottom: 1px solid var(--border-color);
   font: inherit;
 }

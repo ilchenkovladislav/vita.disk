@@ -9,16 +9,25 @@ export interface MenuItem {
 }
 
 interface MenuProps {
-  btnTitle: string | JSX.Element;
+  btnTitle?: string;
+  btnIcon?: JSX.Element;
+  btnStyle: string;
+  containerStyle: string;
   menuItems: MenuItem[];
 }
 
-export const AppMenu: React.FC<MenuProps> = ({ btnTitle, menuItems }) => {
+export const AppMenu: React.FC<MenuProps> = ({
+  btnTitle,
+  btnIcon,
+  btnStyle,
+  containerStyle,
+  menuItems
+}) => {
   return (
     <Menu>
-      <div className={styles['dropdown-container']}>
-        <Menu.Button className={styles['dropdown-button']}>
-          {btnTitle}
+      <div className={containerStyle}>
+        <Menu.Button className={btnStyle}>
+          {btnIcon} {btnTitle}
         </Menu.Button>
 
         <Menu.Items className={styles['dropdown-list']}>
@@ -33,7 +42,7 @@ export const AppMenu: React.FC<MenuProps> = ({ btnTitle, menuItems }) => {
                     cb(label, icon);
                   }}
                 >
-                  {label} {icon}
+                  {icon} {label}
                 </button>
               )}
             </Menu.Item>
