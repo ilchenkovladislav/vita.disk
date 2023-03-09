@@ -16,7 +16,6 @@ $num = $stmt->rowCount();
 
 if ($num > 0) {
     $images_arr = array();
-    $images_arr["records"] = array();
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
@@ -31,7 +30,7 @@ if ($num > 0) {
             "folderId" => $folderId
         );
 
-        array_push($images_arr["records"], $image_item);
+        array_push($images_arr, $image_item);
     }
 
     http_response_code(200);
