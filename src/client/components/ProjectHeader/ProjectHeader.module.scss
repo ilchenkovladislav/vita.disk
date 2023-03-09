@@ -1,0 +1,7 @@
+.header {
+  padding: 40px;
+  display: grid;
+  grid-template-columns: max-content 1fr max-content max-content;
+  align-items: center;
+  gap: 20px;
+}

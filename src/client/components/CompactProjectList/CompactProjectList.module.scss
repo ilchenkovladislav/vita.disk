@@ -1,0 +1,23 @@
+.folders {
+  list-style: none;
+  display: grid;
+  width: 300px;
+  background-color: #fcfcfc;
+
+  li {
+    border-bottom: 1px solid #eee;
+    padding: 15px 20px;
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.folder {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  gap: 10px;
+}
