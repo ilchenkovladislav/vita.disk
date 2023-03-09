@@ -29,10 +29,13 @@ export const folderSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(getFolders.fulfilled, (state, action) => {
-        state.status = 'success';
-        state.items = action.payload.records;
-      })
+      .addCase(
+        getFolders.fulfilled,
+        (state, action: PayloadAction<FolderItem[]>) => {
+          state.status = 'success';
+          state.items = action.payload;
+        }
+      )
       .addCase(
         addFolder.fulfilled,
         (state, action: PayloadAction<FolderItem>) => {
@@ -81,13 +84,13 @@ const createAppAsyncThunk = createAsyncThunk.withTypes<{
   rejectValue: string;
 }>();
 
-const getFolders = createAsyncThunk(
+const getFolders = createAppAsyncThunk<FolderItem[]>(
   'folders/getFolders',
   async (_, { rejectWithValue }) => {
     return await axios
-      .get(`${_urlbase}/read.php`)
-      .then((res) => res.data)
-      .catch((err) =>
+      .get<ServerResponse>(`${_urlbase}/read.php`)
+      .then((res) => res.data.records)
+      .catch((err: AxiosError<ServerResponse>) =>
         rejectWithValue(
           `${err.message}. Не получается получить данные по папкам`
         )
