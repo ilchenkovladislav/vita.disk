@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
-import { ServerResponse, Id } from '../types';
+import { ServerResponse, Id, RootStore } from '../types';
 import { baseServerUrl } from '../../config';
+import { IProjectItem } from 'store/slices/projectSlice';
 
 const _urlbase = `${baseServerUrl}/folder`;
 
@@ -66,6 +67,23 @@ export const folderSlice = createSlice({
 
         state.items.splice(idx, 1);
       })
+      .addCase(
+        updateFolderSequence.fulfilled,
+        (state, action: PayloadAction<FolderItem[]>) => {
+          state.status = 'success';
+          console.log(action.payload);
+
+          for (const payload of action.payload) {
+            const item = state.items.find((el) => el.id === payload.id);
+
+            if (item?.sequence) {
+              item.sequence = payload.sequence;
+            }
+          }
+
+          state.items.sort((a, b) => a.sequence - b.sequence);
+        }
+      )
       .addMatcher(
         (action) => action.type.endsWith('/pending'),
         (state) => {
@@ -83,6 +101,7 @@ export const folderSlice = createSlice({
 
 const createAppAsyncThunk = createAsyncThunk.withTypes<{
   rejectValue: string;
+  state: RootStore;
 }>();
 
 const getFolders = createAppAsyncThunk<FolderItem[]>(
@@ -123,13 +142,52 @@ const updateFolder = createAppAsyncThunk<FolderItem, FolderItem>(
 
 const deleteFolder = createAppAsyncThunk<Id, Id>(
   'folders/deleteFolder',
-  async (id, { rejectWithValue }) =>
+  async (id, { rejectWithValue, dispatch, getState }) =>
     await axios
       .post<ServerResponse>(`${_urlbase}/delete.php`, { id })
-      .then((res) => res.data.records)
+      .then((res) => {
+        const projectId = getState().folder.items.find(
+          (folder) => Number(folder.id) === Number(res.data.records)
+        )?.projectId;
+
+        const idx = getState()
+          .folder.items.filter(
+            (folder) => Number(folder.projectId) === Number(projectId)
+          )
+          .findIndex((folder) => folder.id === res.data.records);
+
+        const folders = getState()
+          .folder.items.filter(
+            (folder) => Number(folder.projectId) === Number(projectId)
+          )
+          .slice(idx + 1)
+          .map((el) => ({ ...el, sequence: el.sequence - 1 }));
+
+        console.log(idx);
+        console.log(projectId);
+        console.log(folders);
+
+        dispatch(updateFolderSequence(folders));
+
+        return res.data.records;
+      })
       .catch((err: AxiosError<ServerResponse>) =>
         rejectWithValue(`${err.message}. Не получается удалить папку`)
       )
+);
+
+const updateFolderSequence = createAppAsyncThunk<FolderItem[], FolderItem[]>(
+  'folders/updateSequence',
+  async (folders, { rejectWithValue }) => {
+    return await axios
+      .post<ServerResponse>(`${_urlbase}/updateSequence.php`, folders)
+      .then((res) => res.data.records)
+      .catch((err: AxiosError<ServerResponse>) => {
+        rejectWithValue(
+          `${err.message}. Не получается изменить очередность папок`
+        );
+      });
+  }
 );
 
 export const actionsThunk = {

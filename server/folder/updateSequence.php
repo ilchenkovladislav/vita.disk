@@ -18,7 +18,11 @@ $data = json_decode(file_get_contents("php://input"));
 
 $res = true;
 
+$res_folders = [];
+
 foreach ($data as $f) {
+    $folder = new Folder($db);
+
     $folder->id = $f->id;
     $folder->sequence = $f->sequence;
 
@@ -27,12 +31,14 @@ foreach ($data as $f) {
     if (!$res) {
         break;
     }
+
+    $res_folders[] = $folder;
 }
 
 if ($res) {
     http_response_code(200);
 
-    echo createServerResponse(200, "Папки обновлены");
+    echo createServerResponse(200, "Папки обновлены", $res_folders);
 } else {
     http_response_code(503);
 

@@ -6,12 +6,16 @@ import { useStateSelector } from 'store/hooks';
 
 import { Menu } from '@headlessui/react';
 import { BASE_URL } from '../../../../../config';
+import { actionsThunk } from 'store/slices/folderSlice';
+import { useActionCreators } from 'store/hooks';
 
 interface FolderMenuProps {
   id: number;
 }
 
 export const FolderMenu: React.FC<FolderMenuProps> = ({ id }) => {
+  const actions = useActionCreators(actionsThunk);
+
   const currentFolder = useStateSelector((state) =>
     state.folder.items.find((folder) => folder.id === id)
   );
@@ -37,7 +41,7 @@ export const FolderMenu: React.FC<FolderMenuProps> = ({ id }) => {
   }
 
   function handleDeleteClick() {
-    console.log(`Deleting`);
+    actions.deleteFolder(id);
   }
 
   return (
