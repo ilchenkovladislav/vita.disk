@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { ServerResponse, Id } from '../types';
-import { baseServerUrl } from 'store/baseUrl';
+import { baseServerUrl } from '../../config';
 
 const _urlbase = `${baseServerUrl}/image`;
 
