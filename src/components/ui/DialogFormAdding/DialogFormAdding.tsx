@@ -114,7 +114,7 @@ export const DialogFormAdding: React.FunctionComponent = () => {
               <div className={styles.formGroup}>
                 <label htmlFor="link">ссылка</label>
                 <input
-                  type="url"
+                  type="text"
                   name="link"
                   id="link"
                   onChange={inputHandler}
