@@ -18,8 +18,6 @@ $data = json_decode(file_get_contents("php://input"));
 if (
     !empty($data->title) &&
     !empty($data->link) &&
-    !empty($data->description) &&
-    !empty($data->sequence) &&
     !empty($data->projectId)
 ) {
     $folder->title = $data->title;

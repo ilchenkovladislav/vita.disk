@@ -4,6 +4,7 @@ import { useStateSelector } from 'store/hooks';
 import { FolderMenu } from '../FolderMenu/FolderMenu';
 
 import styles from './FolderList.module.scss';
+import { ModalAddFolder } from 'features/admin/project/components/ModalAddFolder/ModalAddFolder';
 
 interface FolderListProps {
   projectId: number;
@@ -28,7 +29,7 @@ export const FolderList: React.FC<FolderListProps> = ({ projectId }) => {
         </li>
       ))}
       <li>
-        <button className={styles.addFolder}>+ добавить папку</button>
+        <ModalAddFolder projectId={projectId} />
       </li>
     </ul>
   );
