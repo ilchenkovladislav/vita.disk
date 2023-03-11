@@ -8,7 +8,7 @@ import { useStateSelector } from 'store/hooks';
 import { IProjectItem, projectAsyncActions } from 'store/slices/projectSlice';
 
 import { useAppDispatch } from 'store/hooks';
-import { AppMenu, MenuItem } from 'components/ui/AppMenu/AppMenu';
+import { Menu } from '@headlessui/react';
 
 import styles from './SortingMenu.module.scss';
 
@@ -17,45 +17,43 @@ type CompareFunction = (
   projectB: IProjectItem
 ) => number;
 
+interface SortingMenuItem {
+  label: string;
+  icon: JSX.Element;
+  functionSort: () => void;
+}
+
 export const SortingMenu: React.FC = () => {
   const [label, setLabel] = useState('сортировка');
   const [icon, setIcon] = useState(<BiSort />);
 
-  const menuItems: MenuItem[] = [
+  const menuItems: SortingMenuItem[] = [
     {
       label: 'по имени',
       icon: <MdKeyboardArrowUp />,
-      cb: (label, icon) => {
+      functionSort: () => {
         sortTitleASC();
-        setLabel(label);
-        setIcon(icon);
       }
     },
     {
       label: 'по имени',
       icon: <MdKeyboardArrowDown />,
-      cb: (label, icon) => {
+      functionSort: () => {
         sortTitleDESC();
-        setLabel(label);
-        setIcon(icon);
       }
     },
     {
       label: 'по дате',
       icon: <MdKeyboardArrowUp />,
-      cb: (label, icon) => {
+      functionSort: () => {
         sortDateASC();
-        setLabel(label);
-        setIcon(icon);
       }
     },
     {
       label: 'по дате',
       icon: <MdKeyboardArrowDown />,
-      cb: (label, icon) => {
+      functionSort: () => {
         sortDateDESC();
-        setLabel(label);
-        setIcon(icon);
       }
     }
   ];
@@ -105,12 +103,31 @@ export const SortingMenu: React.FC = () => {
   }
 
   return (
-    <AppMenu
-      btnTitle={label}
-      btnIcon={icon}
-      menuItems={menuItems}
-      btnStyle={styles.btn}
-      containerStyle={styles.container}
-    />
+    <Menu>
+      <div className={styles.container}>
+        <Menu.Button className={styles.btn}>
+          {icon} {label}
+        </Menu.Button>
+
+        <Menu.Items className={styles.list}>
+          {menuItems.map(({ label, icon, functionSort }, idx) => (
+            <Menu.Item key={idx}>
+              {({ active }) => (
+                <button
+                  className={`${styles.item} ${active && styles.itemActive}`}
+                  onClick={() => {
+                    functionSort();
+                    setLabel(label);
+                    setIcon(icon);
+                  }}
+                >
+                  {icon} {label}
+                </button>
+              )}
+            </Menu.Item>
+          ))}
+        </Menu.Items>
+      </div>
+    </Menu>
   );
 };
