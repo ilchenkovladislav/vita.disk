@@ -11,24 +11,24 @@ require "../utility/createServerResponse.php";
 
 $database = new Database();
 $db = $database->getConnection();
-$image = new Image($db);
 
 define("FULL_PATH_TO_FOLDER", "{$_SERVER["DOCUMENT_ROOT"]}/files/{$_POST["projectId"]}/{$_POST["folderId"]}");
 
 if (
-    !empty($_POST["folderId"]) &&
     !empty($_POST["projectId"]) &&
+    !empty($_POST["folderId"]) &&
     $_FILES
 ) {
     moveUploadedFiles(FULL_PATH_TO_FOLDER);
 
     $errors = [];
-    createRecords($image, FULL_PATH_TO_FOLDER, $errors);
+
+    $images = createRecords($db, FULL_PATH_TO_FOLDER, $errors);
 
     if (count($errors) === 0) {
         http_response_code(201);
 
-        echo createServerResponse(201, "Изображения добавлены.");
+        echo createServerResponse(201, "Изображения добавлены.", $images);
     } else {
         http_response_code(503);
 
@@ -40,20 +40,34 @@ if (
     echo createServerResponse(400, "Невозможно добавить изображение. Данные неполные.");
 }
 
-function createRecords($image, $dir, &$errors)
+function createRecords($db, $dir, &$errors)
 {
+    $images = [];
+
     foreach ($_FILES["images"]["name"] as $filename) {
+        $image = new Image($db);
+
+        $p = "http://vita.disk/files/{$_POST["projectId"]}/{$_POST["folderId"]}/{$filename}";
+
         $image->title = $filename;
-        $image->path = "{$dir}/{$filename}";
+//        $image->path = "{$dir}/{$filename}";
+        $image->path = "http://vita.disk/files/{$_POST["projectId"]}/{$_POST["folderId"]}/{$filename}";
         $image->folderId = $_POST["folderId"];
         $image->sequence = $image->getTotalNumber();
 
         if (!$image->create()) {
             $errors[] = $image->title;
+            continue;
         }
+
+        $image->id = $image->getLastId();
+        $image->numberDownloads = 0;
+        $image->isFavourites = 0;
+
+        $images[] = $image;
     }
 
-    var_dump($errors);
+    return $images;
 }
 
 function moveUploadedFiles($dir)

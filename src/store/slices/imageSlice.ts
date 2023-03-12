@@ -40,9 +40,11 @@ export const imageSlice = createSlice({
       )
       .addCase(
         addImage.fulfilled,
-        (state, action: PayloadAction<ImageItem>) => {
+        (state, action: PayloadAction<ImageItem[]>) => {
           state.status = 'success';
-          state.items.push(action.payload);
+          for (const image of action.payload) {
+            state.items.push(image);
+          }
         }
       )
       .addCase(
@@ -100,15 +102,29 @@ const getImages = createAppAsyncThunk<ImageItem[]>(
       )
 );
 
-const addImage = createAppAsyncThunk<ImageItem, ImageItem>(
+const addImage = createAppAsyncThunk<
+  ImageItem[],
+  { projectId: number; folderId: number; images: File[] }
+>(
   'images/addImage',
-  async (image, { rejectWithValue }) =>
-    await axios
-      .post<ServerResponse>(`${_urlbase}/create.php`, JSON.stringify(image))
+  async ({ projectId, folderId, images }, { rejectWithValue }) => {
+    const formData = new FormData();
+
+    formData.append('projectId', projectId.toString());
+    formData.append('folderId', folderId.toString());
+
+    for (let i = 0; i < images.length; i++) {
+      formData.append('images[]', images[i]);
+    }
+
+    return await axios
+      .post<ServerResponse>(`${_urlbase}/create.php`, formData)
       .then((res) => res.data.records)
+      // .then((res) => console.log(res.data))
       .catch((err: AxiosError<ServerResponse>) =>
         rejectWithValue(`${err.message}. Не получается добавить изображения`)
-      )
+      );
+  }
 );
 
 const updateImage = createAppAsyncThunk<ImageItem, ImageItem>(

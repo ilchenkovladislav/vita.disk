@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useStateSelector } from 'store/hooks';
 
 import styles from './ImageList.module.scss';
+import { ImageUploader } from 'features/admin/project/components/ImageUploader/ImageUploader';
 
 import { useActionCreators } from 'store/hooks';
 import { imageAsyncActions } from 'store/slices/imageSlice';
@@ -22,6 +23,14 @@ export const ImageList = () => {
 
   return (
     <ul className={styles.images}>
+      <li>
+        {
+          <ImageUploader
+            projectId={Number(projectId)}
+            folderId={Number(folderId)}
+          />
+        }
+      </li>
       {images.map((image) => (
         <li className={styles.item} key={image.id}>
           <img className={styles.img} src={image.path} alt="" />
