@@ -69,19 +69,7 @@ export const imageSlice = createSlice({
         if (idx === -1) return;
 
         state.items.splice(idx, 1);
-      })
-      .addMatcher(
-        (action) => action.type.endsWith('/pending'),
-        (state) => {
-          state.status = 'loading';
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
-        (state) => {
-          state.status = 'error';
-        }
-      );
+      });
   }
 });
 

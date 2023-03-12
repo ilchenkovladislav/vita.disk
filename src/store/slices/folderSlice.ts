@@ -71,7 +71,6 @@ export const folderSlice = createSlice({
         updateFolderSequence.fulfilled,
         (state, action: PayloadAction<FolderItem[]>) => {
           state.status = 'success';
-          console.log(action.payload);
 
           for (const payload of action.payload) {
             const item = state.items.find((el) => el.id === payload.id);
@@ -82,18 +81,6 @@ export const folderSlice = createSlice({
           }
 
           state.items.sort((a, b) => a.sequence - b.sequence);
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith('/pending'),
-        (state) => {
-          state.status = 'loading';
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
-        (state) => {
-          state.status = 'error';
         }
       );
   }

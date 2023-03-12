@@ -90,19 +90,6 @@ export const projectSlice = createSlice({
 
           state.items.sort((a, b) => a.sequence - b.sequence);
         }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith('/pending'),
-        (state) => {
-          state.status = 'loading';
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
-        (state, action) => {
-          state.status = 'error';
-          state.error = action.payload;
-        }
       );
   }
 });
