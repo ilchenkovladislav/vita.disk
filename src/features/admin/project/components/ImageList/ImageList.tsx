@@ -36,7 +36,9 @@ export const ImageList = () => {
           <img className={styles.img} src={image.path} alt="" />
           <div className={styles.control}>
             <button>переименовать</button>
-            <button>скачать</button>
+            <a href={image.path} download>
+              скачать
+            </a>
             <button>скопировать ссылку</button>
             <button onClick={() => handleDeleteClick(image.id)}>удалить</button>
           </div>
