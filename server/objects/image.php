@@ -125,4 +125,9 @@ class Image
         }
         return false;
     }
+
+    function getLastId()
+    {
+        return $this->conn->lastInsertId();
+    }
 }
