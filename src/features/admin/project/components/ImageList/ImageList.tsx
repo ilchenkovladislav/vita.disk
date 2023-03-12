@@ -3,14 +3,22 @@ import { useStateSelector } from 'store/hooks';
 
 import styles from './ImageList.module.scss';
 
+import { useActionCreators } from 'store/hooks';
+import { imageAsyncActions } from 'store/slices/imageSlice';
+
 export const ImageList = () => {
-  const { folderId } = useParams();
+  const { projectId, folderId } = useParams();
+  const actions = useActionCreators(imageAsyncActions);
 
   const images = useStateSelector((state) =>
     state.image.items.filter(
       (image) => Number(image.folderId) === Number(folderId)
     )
   );
+
+  function handleDeleteClick(id: number) {
+    actions.deleteImage(id);
+  }
 
   return (
     <ul className={styles.images}>
@@ -21,7 +29,7 @@ export const ImageList = () => {
             <button>переименовать</button>
             <button>скачать</button>
             <button>скопировать ссылку</button>
-            <button>удалить</button>
+            <button onClick={() => handleDeleteClick(image.id)}>удалить</button>
           </div>
           <div className={styles.downloads}>
             {image.numberDownloads} раз скачали

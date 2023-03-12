@@ -21,7 +21,7 @@ $image->id = $data->id;
 if ($image->delete()) {
     http_response_code(200);
 
-    echo createServerResponse(200, "Изображение удалено");
+    echo createServerResponse(200, "Изображение удалено", $image->id);
 } else {
     http_response_code(503);
 
