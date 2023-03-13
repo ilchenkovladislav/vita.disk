@@ -18,7 +18,11 @@ export const AdminPanel = () => {
   }, [projects]);
 
   function onChangeSearch(searchString: string) {
-    setFilterProjects(projects.filter((el) => el.title.includes(searchString)));
+    setFilterProjects(
+      projects.filter((el) =>
+        el.title.toLowerCase().includes(searchString.toLowerCase())
+      )
+    );
   }
 
   return (
