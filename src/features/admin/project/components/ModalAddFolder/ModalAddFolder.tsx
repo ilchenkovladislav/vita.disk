@@ -9,10 +9,14 @@ import { actionsThunk } from 'store/slices/folderSlice';
 
 interface ModalAddFolderProps {
   projectId: number;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ModalAddFolder: React.FC<ModalAddFolderProps> = ({
-  projectId
+  projectId,
+  isOpen,
+  setIsOpen
 }) => {
   const numberFolders = useStateSelector(
     (state) =>
@@ -27,7 +31,7 @@ export const ModalAddFolder: React.FC<ModalAddFolderProps> = ({
     link: '',
     description: ''
   });
-  const [isOpen, setIsOpen] = useState(false);
+
   const inputRef = useRef(null);
   const [isToggleOn, setIsToggleOn] = useState(true);
 
@@ -69,14 +73,6 @@ export const ModalAddFolder: React.FC<ModalAddFolderProps> = ({
 
   return (
     <>
-      <button
-        className={styles.addBtn}
-        type="button"
-        onClick={() => setIsOpen(true)}
-      >
-        + добавить папку
-      </button>
-
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
