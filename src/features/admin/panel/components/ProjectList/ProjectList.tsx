@@ -11,6 +11,7 @@ type ProjectListProps = {
 
 export const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [editProject, setEditProject] = useState<IProjectItem | null>(null);
 
   return (
     <>
@@ -18,18 +19,29 @@ export const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
         <button
           className={styles.addBtn}
           type="button"
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            setIsOpen(true);
+            setEditProject(null);
+          }}
         >
           добавить проект +
         </button>
         {projects.map((project) => (
           <li className={styles.row} key={project.id}>
-            <ProjectItem project={project} />
+            <ProjectItem
+              project={project}
+              setIsOpen={setIsOpen}
+              setEditProject={setEditProject}
+            />
           </li>
         ))}
       </ul>
 
-      <ModalAddProject isOpen={isOpen} setIsOpen={setIsOpen} />
+      <ModalAddProject
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        project={editProject}
+      />
     </>
   );
 };

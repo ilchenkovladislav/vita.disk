@@ -13,9 +13,15 @@ import styles from './ProjectItem.module.scss';
 
 interface ProjectItemProps {
   project: IProjectItem;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditProject: React.Dispatch<React.SetStateAction<IProjectItem | null>>;
 }
 
-export const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
+export const ProjectItem: React.FC<ProjectItemProps> = ({
+  project,
+  setIsOpen,
+  setEditProject
+}) => {
   const { id, title, link, dateCreation, dateShooting, cover, numberImages } =
     project;
   const asyncActions = useActionCreators(projectAsyncActions);
@@ -56,7 +62,13 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
         >
           <MdOutlineContentCopy />
         </button>
-        <button type="button">
+        <button
+          type="button"
+          onClick={() => {
+            setIsOpen(true);
+            setEditProject(project);
+          }}
+        >
           <FiSettings />
         </button>
         <button type="button" onClick={onDeleteProject}>

@@ -21,11 +21,12 @@ export type FormProjectItem = Omit<
 interface DialogFormAddingProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  project?: IProjectItem | null;
 }
 
 export const ModalAddProject: React.FunctionComponent<
   DialogFormAddingProps
-> = ({ isOpen, setIsOpen }) => {
+> = ({ isOpen, setIsOpen, project }) => {
   const numberProjects = useStateSelector(
     (state) => state.project.items.length
   );
@@ -33,21 +34,40 @@ export const ModalAddProject: React.FunctionComponent<
   const asyncActions = useActionCreators(projectAsyncActions);
 
   const [isToggleOn, setIsToggleOn] = useState(true);
+  const [isEditMode, setIsEditMode] = useState(false);
 
-  const [form, setForm] = useState<FormProjectItem>({
+  const initialState = {
     title: '',
-    link: '',
+    link: uuidv4(),
     dateShooting: '',
     cover:
       'https://img-20.wfolio.com/lOlf4eEjCXFJ4dZiEdZftJYQVFwtal4J7N5ouMA8B9c/rs:fit:640:0:0/cb:v2/aHR0cDovL2Rpc2su/d2ZvbGlvLnJ1L2Rp/c2tzLzQxMTYzL3By/b2plY3RzLzIxMTk2/MjQvcHJldmlld3Mv/MTY3NzE1NTcyN18z/OGJlMTIuanBn.jpg',
     sequence: 0
-  });
+  };
+
+  const [form, setForm] = useState<FormProjectItem>(initialState);
 
   useEffect(() => {
     if (isToggleOn) {
       setForm((prev) => ({ ...prev, link: uuidv4() }));
     }
   }, [isToggleOn]);
+
+  useEffect(() => {
+    if (project) {
+      setIsEditMode(true);
+      setForm({
+        title: project.title,
+        link: project.link,
+        dateShooting: project.dateShooting,
+        cover: project.cover,
+        sequence: project.sequence
+      });
+    } else {
+      setIsEditMode(false);
+      clearForm();
+    }
+  }, [project]);
 
   const inputRef = useRef(null);
 
@@ -61,18 +81,18 @@ export const ModalAddProject: React.FunctionComponent<
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    asyncActions.addProject({ ...form, sequence: numberProjects });
+    if (isEditMode) {
+      asyncActions.updateProject({ ...project, ...form });
+    } else {
+      asyncActions.addProject({ ...form, sequence: numberProjects });
+    }
+
     setIsOpen(false);
     clearForm();
   }
 
   function clearForm() {
-    setForm((prev) => ({
-      ...prev,
-      title: '',
-      link: uuidv4(),
-      dateShooting: ''
-    }));
+    setForm(initialState);
   }
 
   return (
@@ -87,13 +107,15 @@ export const ModalAddProject: React.FunctionComponent<
           <Dialog.Panel className={styles.panel}>
             <header className={styles.header}>
               <Dialog.Title className={styles.title}>
-                добавление нового проекта
+                {isEditMode
+                  ? 'редактирование проекта'
+                  : 'добавление нового проекта'}
               </Dialog.Title>
               <Closure onClick={() => setIsOpen(false)} />
             </header>
 
             <form
-              id="DialogFormAdding"
+              id="ModalAddProject"
               className={styles.form}
               onSubmit={onSubmit}
             >
@@ -140,7 +162,11 @@ export const ModalAddProject: React.FunctionComponent<
             </form>
 
             <footer className={styles.footer}>
-              <input type="submit" form="ModalAddProject" value="добавить" />
+              <input
+                type="submit"
+                form="ModalAddProject"
+                value={isEditMode ? 'обновить' : 'добавить'}
+              />
             </footer>
           </Dialog.Panel>
         </div>
