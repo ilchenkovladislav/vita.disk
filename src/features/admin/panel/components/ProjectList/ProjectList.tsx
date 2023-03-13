@@ -1,6 +1,6 @@
 import { ProjectItem } from '../ProjectItem/ProjectItem';
 import { IProjectItem } from 'store/slices/projectSlice';
-import { DialogFormAdding } from 'components/ui/DialogFormAdding/DialogFormAdding';
+import { ModalAddProject } from 'components/ui/ModalAddProject/ModalAddProject';
 
 import styles from './ProjectList.module.scss';
 import { useState } from 'react';
@@ -29,7 +29,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
         ))}
       </ul>
 
-      <DialogFormAdding isOpen={isOpen} setIsOpen={setIsOpen} />
+      <ModalAddProject isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
 };

@@ -11,7 +11,7 @@ import { useActionCreators } from 'store/hooks';
 import { projectAsyncActions } from 'store/slices/projectSlice';
 import { useStateSelector } from 'store/hooks';
 
-import styles from './DialogFormAdding.module.scss';
+import styles from './ModalAddProject.module.scss';
 
 export type FormProjectItem = Omit<
   IProjectItem,
@@ -23,7 +23,7 @@ interface DialogFormAddingProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const DialogFormAdding: React.FunctionComponent<
+export const ModalAddProject: React.FunctionComponent<
   DialogFormAddingProps
 > = ({ isOpen, setIsOpen }) => {
   const numberProjects = useStateSelector(
@@ -140,7 +140,7 @@ export const DialogFormAdding: React.FunctionComponent<
             </form>
 
             <footer className={styles.footer}>
-              <input type="submit" form="DialogFormAdding" value="добавить" />
+              <input type="submit" form="ModalAddProject" value="добавить" />
             </footer>
           </Dialog.Panel>
         </div>
