@@ -18,14 +18,20 @@ export type FormProjectItem = Omit<
   'id' | 'dateCreation' | 'numberImages'
 >;
 
-export const DialogFormAdding: React.FunctionComponent = () => {
+interface DialogFormAddingProps {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const DialogFormAdding: React.FunctionComponent<
+  DialogFormAddingProps
+> = ({ isOpen, setIsOpen }) => {
   const numberProjects = useStateSelector(
     (state) => state.project.items.length
   );
 
   const asyncActions = useActionCreators(projectAsyncActions);
 
-  const [isOpen, setIsOpen] = useState(false);
   const [isToggleOn, setIsToggleOn] = useState(true);
 
   const [form, setForm] = useState<FormProjectItem>({
@@ -71,14 +77,6 @@ export const DialogFormAdding: React.FunctionComponent = () => {
 
   return (
     <>
-      <button
-        className={styles.addBtn}
-        type="button"
-        onClick={() => setIsOpen(true)}
-      >
-        добавить проект +
-      </button>
-
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}

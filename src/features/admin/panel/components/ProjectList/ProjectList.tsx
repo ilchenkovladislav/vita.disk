@@ -3,20 +3,33 @@ import { IProjectItem } from 'store/slices/projectSlice';
 import { DialogFormAdding } from 'components/ui/DialogFormAdding/DialogFormAdding';
 
 import styles from './ProjectList.module.scss';
+import { useState } from 'react';
 
 type ProjectListProps = {
   projects: IProjectItem[];
 };
 
 export const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <ul className={styles.body}>
-      <DialogFormAdding />
-      {projects.map((project) => (
-        <li className={styles.row} key={project.id}>
-          <ProjectItem project={project} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className={styles.body}>
+        <button
+          className={styles.addBtn}
+          type="button"
+          onClick={() => setIsOpen(true)}
+        >
+          добавить проект +
+        </button>
+        {projects.map((project) => (
+          <li className={styles.row} key={project.id}>
+            <ProjectItem project={project} />
+          </li>
+        ))}
+      </ul>
+
+      <DialogFormAdding isOpen={isOpen} setIsOpen={setIsOpen} />
+    </>
   );
 };
