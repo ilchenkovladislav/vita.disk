@@ -6,6 +6,7 @@ import { FolderMenu } from '../FolderMenu/FolderMenu';
 import styles from './FolderList.module.scss';
 import { ModalAddFolder } from 'features/admin/project/components/ModalAddFolder/ModalAddFolder';
 import { useState } from 'react';
+import { FolderItem } from 'store/slices/folderSlice';
 
 interface FolderListProps {
   projectId: number;
@@ -13,6 +14,7 @@ interface FolderListProps {
 
 export const FolderList: React.FC<FolderListProps> = ({ projectId }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [editFolder, setEditFolder] = useState<FolderItem | null>(null);
 
   const folders = useStateSelector((state) =>
     state.folder.items.filter(
@@ -29,14 +31,22 @@ export const FolderList: React.FC<FolderListProps> = ({ projectId }) => {
               <h4>{title}</h4>
               <p>47 фото</p>
             </Link>
-            <FolderMenu projectId={projectId} folderId={id} />
+            <FolderMenu
+              projectId={projectId}
+              folderId={id}
+              setEditFolder={setEditFolder}
+              setIsOpen={setIsOpen}
+            />
           </li>
         ))}
         <li>
           <button
             className={styles.addBtn}
             type="button"
-            onClick={() => setIsOpen(true)}
+            onClick={() => {
+              setIsOpen(true);
+              setEditFolder(null);
+            }}
           >
             + добавить папку
           </button>
@@ -47,6 +57,7 @@ export const FolderList: React.FC<FolderListProps> = ({ projectId }) => {
         projectId={projectId}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
+        folder={editFolder}
       />
     </>
   );

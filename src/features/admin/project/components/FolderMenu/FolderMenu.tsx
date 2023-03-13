@@ -6,17 +6,21 @@ import { useStateSelector } from 'store/hooks';
 
 import { Menu } from '@headlessui/react';
 import { BASE_URL } from '../../../../../config';
-import { actionsThunk } from 'store/slices/folderSlice';
+import { actionsThunk, FolderItem } from 'store/slices/folderSlice';
 import { useActionCreators } from 'store/hooks';
 
 interface FolderMenuProps {
   projectId: number;
   folderId: number;
+  setEditFolder: React.Dispatch<React.SetStateAction<FolderItem | null>>;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const FolderMenu: React.FC<FolderMenuProps> = ({
   projectId,
-  folderId
+  folderId,
+  setEditFolder,
+  setIsOpen
 }) => {
   const actions = useActionCreators(actionsThunk);
 
@@ -33,7 +37,8 @@ export const FolderMenu: React.FC<FolderMenuProps> = ({
   const folderURL = `${BASE_URL}/${currentProject?.link}/${currentFolder?.link}`;
 
   function handleEditClick() {
-    console.log(`Editing`);
+    setIsOpen(true);
+    currentFolder ? setEditFolder(currentFolder) : setEditFolder(null);
   }
 
   function handleCopyClick() {

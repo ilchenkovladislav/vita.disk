@@ -5,18 +5,20 @@ import { useEffect, useRef, useState } from 'react';
 import { Toggle } from 'components/ui/components/Toggle/Toggle';
 import { v4 as uuidv4 } from 'uuid';
 import { useActionCreators, useStateSelector } from 'store/hooks';
-import { actionsThunk } from 'store/slices/folderSlice';
+import { actionsThunk, FolderItem } from 'store/slices/folderSlice';
 
 interface ModalAddFolderProps {
   projectId: number;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  folder?: FolderItem | null;
 }
 
 export const ModalAddFolder: React.FC<ModalAddFolderProps> = ({
   projectId,
   isOpen,
-  setIsOpen
+  setIsOpen,
+  folder
 }) => {
   const numberFolders = useStateSelector(
     (state) =>
@@ -26,11 +28,15 @@ export const ModalAddFolder: React.FC<ModalAddFolderProps> = ({
   );
   const asyncActions = useActionCreators(actionsThunk);
 
-  const [form, setForm] = useState({
+  const initialState = {
     title: '',
-    link: '',
+    link: uuidv4(),
     description: ''
-  });
+  };
+
+  const [form, setForm] = useState(initialState);
+
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const inputRef = useRef(null);
   const [isToggleOn, setIsToggleOn] = useState(true);
@@ -40,6 +46,20 @@ export const ModalAddFolder: React.FC<ModalAddFolderProps> = ({
       setForm((prev) => ({ ...prev, link: uuidv4() }));
     }
   }, [isToggleOn]);
+
+  useEffect(() => {
+    if (folder) {
+      setIsEditMode(true);
+      setForm({
+        title: folder.title,
+        link: folder.link,
+        description: folder.description
+      });
+    } else {
+      setIsEditMode(false);
+      clearForm();
+    }
+  }, [folder]);
 
   function inputHandler(
     e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -53,22 +73,21 @@ export const ModalAddFolder: React.FC<ModalAddFolderProps> = ({
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    asyncActions.addFolder({
-      ...form,
-      sequence: numberFolders,
-      projectId: projectId
-    });
+    if (isEditMode) {
+      asyncActions.updateFolder({ ...folder, ...form });
+    } else {
+      asyncActions.addFolder({
+        ...form,
+        sequence: numberFolders,
+        projectId: projectId
+      });
+    }
     setIsOpen(false);
     clearForm();
   }
 
   function clearForm() {
-    setForm((prev) => ({
-      ...prev,
-      title: '',
-      link: uuidv4(),
-      description: ''
-    }));
+    setForm(initialState);
   }
 
   return (
@@ -83,7 +102,7 @@ export const ModalAddFolder: React.FC<ModalAddFolderProps> = ({
           <Dialog.Panel className={styles.panel}>
             <header className={styles.header}>
               <Dialog.Title className={styles.title}>
-                добавление новой папки
+                {isEditMode ? 'редактирование папки' : 'добавление новой папки'}
               </Dialog.Title>
               <Closure onClick={() => setIsOpen(false)} />
             </header>
@@ -136,7 +155,11 @@ export const ModalAddFolder: React.FC<ModalAddFolderProps> = ({
             </form>
 
             <footer className={styles.footer}>
-              <input type="submit" form="ModalAddFolder" value="добавить" />
+              <input
+                type="submit"
+                form="ModalAddFolder"
+                value={isEditMode ? 'обновить' : 'добавить'}
+              />
             </footer>
           </Dialog.Panel>
         </div>

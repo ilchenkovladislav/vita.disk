@@ -5,7 +5,7 @@ import { baseServerUrl } from '../../config';
 
 const _urlbase = `${baseServerUrl}/folder`;
 
-interface FolderItem {
+export interface FolderItem {
   readonly id: number;
   title: string;
   link: string;
