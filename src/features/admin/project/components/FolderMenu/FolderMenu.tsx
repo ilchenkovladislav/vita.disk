@@ -10,14 +10,18 @@ import { actionsThunk } from 'store/slices/folderSlice';
 import { useActionCreators } from 'store/hooks';
 
 interface FolderMenuProps {
-  id: number;
+  projectId: number;
+  folderId: number;
 }
 
-export const FolderMenu: React.FC<FolderMenuProps> = ({ id }) => {
+export const FolderMenu: React.FC<FolderMenuProps> = ({
+  projectId,
+  folderId
+}) => {
   const actions = useActionCreators(actionsThunk);
 
   const currentFolder = useStateSelector((state) =>
-    state.folder.items.find((folder) => folder.id === id)
+    state.folder.items.find((folder) => folder.id === folderId)
   );
 
   const currentProject = useStateSelector((state) =>
@@ -37,11 +41,11 @@ export const FolderMenu: React.FC<FolderMenuProps> = ({ id }) => {
   }
 
   function handleDownloadClick() {
-    console.log(`Downloading files from`);
+    actions.downloadZip({ projectId, folderId });
   }
 
   function handleDeleteClick() {
-    actions.deleteFolder(id);
+    actions.deleteFolder(folderId);
   }
 
   return (

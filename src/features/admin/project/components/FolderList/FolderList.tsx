@@ -25,7 +25,7 @@ export const FolderList: React.FC<FolderListProps> = ({ projectId }) => {
             <h4>{title}</h4>
             <p>47 фото</p>
           </Link>
-          <FolderMenu id={id} />
+          <FolderMenu projectId={projectId} folderId={id} />
         </li>
       ))}
       <li>

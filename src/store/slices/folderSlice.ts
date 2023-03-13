@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { ServerResponse, Id, RootStore } from '../types';
 import { baseServerUrl } from '../../config';
-import { IProjectItem } from 'store/slices/projectSlice';
 
 const _urlbase = `${baseServerUrl}/folder`;
 
@@ -150,10 +149,6 @@ const deleteFolder = createAppAsyncThunk<Id, Id>(
           .slice(idx + 1)
           .map((el) => ({ ...el, sequence: el.sequence - 1 }));
 
-        console.log(idx);
-        console.log(projectId);
-        console.log(folders);
-
         dispatch(updateFolderSequence(folders));
 
         return res.data.records;
@@ -177,11 +172,38 @@ const updateFolderSequence = createAppAsyncThunk<FolderItem[], FolderItem[]>(
   }
 );
 
+const downloadZip = createAppAsyncThunk<
+  void,
+  { projectId: string; folderId: string }
+>(
+  'folders/downloadZip',
+  async ({ projectId, folderId }, { rejectWithValue }) => {
+    const formData = new FormData();
+    formData.append('projectId', projectId);
+    formData.append('folderId', folderId);
+
+    return await axios
+      .post<Blob>(`${_urlbase}/downloadZip.php`, formData, {
+        responseType: 'blob'
+      })
+      .then((res) => {
+        const link = document.createElement('a');
+        link.download = '';
+        link.href = URL.createObjectURL(res.data);
+        link.click();
+      })
+      .catch((err: AxiosError<ServerResponse>) => {
+        rejectWithValue(`${err.message}. Не получается скачать архив с фото`);
+      });
+  }
+);
+
 export const actionsThunk = {
   getFolders,
   addFolder,
   updateFolder,
-  deleteFolder
+  deleteFolder,
+  downloadZip
 };
 
 export const { reducer: folderReducer, actions: folderActions } = folderSlice;
