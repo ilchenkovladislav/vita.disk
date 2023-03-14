@@ -1,0 +1,73 @@
+.images {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.item {
+  position: relative;
+}
+
+.itemSelected {
+  position: relative;
+  outline: 5px solid #1e78bb;
+}
+
+.itemSelected .check {
+  visibility: visible;
+  transition: opacity 0.15s, visibility 0s;
+  opacity: 1;
+}
+
+.img {
+  max-width: 100%;
+}
+
+.control {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0s 0.15s;
+  opacity: 0;
+}
+
+.item:hover .control,
+.item:hover .downloads,
+.item:hover .check {
+  visibility: visible;
+  transition: opacity 0.15s, visibility 0s;
+  opacity: 1;
+}
+
+.downloads {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: #eee;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0s 0.15s;
+  opacity: 0;
+}
+
+.check {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0s 0.15s;
+  opacity: 0;
+}
+
+.pop {
+  display: none;
+}
