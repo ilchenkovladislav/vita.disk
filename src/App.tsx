@@ -9,6 +9,7 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { ProjectTab } from './features/admin/project/components/ProjectTab/ProjectTab';
 import { ImageList } from './features/admin/project/components/ImageList/ImageList';
+import { Settings } from 'features/admin/project/components/Settings/Settings';
 
 export default function App() {
   const projectsStatus = useStateSelector((state) => state.project.status);
@@ -28,7 +29,7 @@ export default function App() {
           <Route path="" element={<ProjectTab />}>
             <Route path="folder/:folderId" element={<ImageList />} />
           </Route>
-          <Route path="settings" element={<h1>Настройки</h1>} />
+          <Route path="settings" element={<Settings />} />
           <Route path="favourites" element={<h1>Избранное</h1>} />
           <Route path="design" element={<h1>Дезигн</h1>} />
         </Route>
