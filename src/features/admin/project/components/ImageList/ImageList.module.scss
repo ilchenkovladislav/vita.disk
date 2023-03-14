@@ -9,6 +9,17 @@
   position: relative;
 }
 
+.itemSelected {
+  position: relative;
+  outline: 5px solid #1e78bb;
+}
+
+.itemSelected .check {
+  visibility: visible;
+  transition: opacity 0.15s, visibility 0s;
+  opacity: 1;
+}
+
 .img {
   max-width: 100%;
 }
@@ -55,4 +66,8 @@
   visibility: hidden;
   transition: opacity 0.15s, visibility 0s 0.15s;
   opacity: 0;
+}
+
+.pop {
+  display: none;
 }
