@@ -11,6 +11,9 @@ import { ProjectTab } from 'features/admin/project/components/ProjectTab/Project
 import { ImageList } from 'features/admin/project/components/ImageList/ImageList';
 import { FavouriteImageList } from 'features/admin/project/components/FavouriteImageList/FavouriteImageList';
 import { Settings } from 'features/admin/project/components/Settings/Settings';
+import { UserPage } from 'features/user/UserPage/UserPage';
+
+import { ImageList as IL } from 'features/user/components/ImageList/ImageList';
 
 export default function App() {
   const projectsStatus = useStateSelector((state) => state.project.status);
@@ -35,6 +38,9 @@ export default function App() {
             <Route path="folder/:folderId" element={<FavouriteImageList />} />
           </Route>
           <Route path="design" element={<h1>Дезигн</h1>} />
+        </Route>
+        <Route path="/page/:userLink" element={<UserPage />}>
+          <Route path=":folderLink" element={<IL />} />
         </Route>
       </Routes>
     </div>

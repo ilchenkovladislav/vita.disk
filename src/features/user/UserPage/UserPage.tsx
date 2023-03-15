@@ -1,126 +1,44 @@
-import { FiDownload, FiShare2 } from 'react-icons/fi';
-
 import styles from './UserPage.module.scss';
+import { Outlet, useParams } from 'react-router-dom';
+import { useActionCreators, useStateSelector } from 'store/hooks';
+import { useEffect } from 'react';
+import { actionsThunk } from 'store/slices/folderSlice';
+import { imageAsyncActions } from 'store/slices/imageSlice';
+import { Header } from '../components/Header/Header';
 
 export const UserPage = () => {
+  const { userLink } = useParams();
+
+  const project = useStateSelector((state) =>
+    state.project.items.find((project) => project.link === userLink)
+  );
+
+  const folderStatus = useStateSelector((state) => state.folder.status);
+  const actions = useActionCreators(actionsThunk);
+
+  const imagesStatus = useStateSelector((state) => state.image.status);
+  const imageActions = useActionCreators(imageAsyncActions);
+
+  useEffect(() => {
+    if (folderStatus === 'init') {
+      actions.getFolders();
+    }
+
+    if (imagesStatus === 'init') {
+      imageActions.getImages();
+    }
+  }, [folderStatus]);
+
   return (
     <div>
-      {/* обложка проекта */}
       <section className={styles.cover}>
-        <p className={styles.dateShooting}>01.01.2023</p>
-        <h1 className={styles.title}>«Новогодние открытки»</h1>
+        <p className={styles.dateShooting}>{project?.dateShooting}</p>
+        <h1 className={styles.title}>{project?.title}</h1>
       </section>
       <section className={styles.container}>
-        <div className={styles.menu}>
-          {/* компонент с папками */}
-          <ul className={styles.directories}>
-            <li>
-              <a href="https://ou7g5wq1c17j.wfolio.pro/disk/novogodnie-otkrytki/photos">
-                На улице
-              </a>
-            </li>
-            <li>
-              <a href="https://ou7g5wq1c17j.wfolio.pro/disk/novogodnie-otkrytki/photos">
-                В студии
-              </a>
-            </li>
-          </ul>
-          {/* компонент с выпадающим меню скачивания */}
-          <button>Скачать весь проект</button>
-        </div>
-        {/* список фоток */}
-        <ul className={styles.imageList}>
-          <li className={styles.imageItem}>
-            <img
-              className={styles.image}
-              src="https://img-20.wfolio.com/AEnxMcCC4KcXVcEkWZg81k6vekA2BUDJXwtwlkO8CJ0/rs:fit:320:0:0/cb:v2/aHR0cDovL2Rpc2su/d2ZvbGlvLnJ1L2Rp/c2tzLzQxMTYzL3By/b2plY3RzLzE5MzA3/MzYvcHJldmlld3Mv/MTY3Mzc5MTU3OV8y/OTkwMzYuanBn.jpg"
-              alt=""
-            />
-            <div className={styles.controls}>
-              <button>
-                <FiShare2 />
-              </button>
-              <button>
-                <FiDownload />
-              </button>
-            </div>
-          </li>
-          <li className={styles.imageItem}>
-            <img
-              className={styles.image}
-              src="https://img-20.wfolio.com/AEnxMcCC4KcXVcEkWZg81k6vekA2BUDJXwtwlkO8CJ0/rs:fit:320:0:0/cb:v2/aHR0cDovL2Rpc2su/d2ZvbGlvLnJ1L2Rp/c2tzLzQxMTYzL3By/b2plY3RzLzE5MzA3/MzYvcHJldmlld3Mv/MTY3Mzc5MTU3OV8y/OTkwMzYuanBn.jpg"
-              alt=""
-            />
-            <div className={styles.controls}>
-              <button>
-                <FiShare2 />
-              </button>
-              <button>
-                <FiDownload />
-              </button>
-            </div>
-          </li>
-          <li className={styles.imageItem}>
-            <img
-              className={styles.image}
-              src="https://img-20.wfolio.com/AEnxMcCC4KcXVcEkWZg81k6vekA2BUDJXwtwlkO8CJ0/rs:fit:320:0:0/cb:v2/aHR0cDovL2Rpc2su/d2ZvbGlvLnJ1L2Rp/c2tzLzQxMTYzL3By/b2plY3RzLzE5MzA3/MzYvcHJldmlld3Mv/MTY3Mzc5MTU3OV8y/OTkwMzYuanBn.jpg"
-              alt=""
-            />
-            <div className={styles.controls}>
-              <button>
-                <FiShare2 />
-              </button>
-              <button>
-                <FiDownload />
-              </button>
-            </div>
-          </li>
-          <li className={styles.imageItem}>
-            <img
-              className={styles.image}
-              src="https://img-20.wfolio.com/AEnxMcCC4KcXVcEkWZg81k6vekA2BUDJXwtwlkO8CJ0/rs:fit:320:0:0/cb:v2/aHR0cDovL2Rpc2su/d2ZvbGlvLnJ1L2Rp/c2tzLzQxMTYzL3By/b2plY3RzLzE5MzA3/MzYvcHJldmlld3Mv/MTY3Mzc5MTU3OV8y/OTkwMzYuanBn.jpg"
-              alt=""
-            />
-            <div className={styles.controls}>
-              <button>
-                <FiShare2 />
-              </button>
-              <button>
-                <FiDownload />
-              </button>
-            </div>
-          </li>
-          <li className={styles.imageItem}>
-            <img
-              className={styles.image}
-              src="https://img-20.wfolio.com/AEnxMcCC4KcXVcEkWZg81k6vekA2BUDJXwtwlkO8CJ0/rs:fit:320:0:0/cb:v2/aHR0cDovL2Rpc2su/d2ZvbGlvLnJ1L2Rp/c2tzLzQxMTYzL3By/b2plY3RzLzE5MzA3/MzYvcHJldmlld3Mv/MTY3Mzc5MTU3OV8y/OTkwMzYuanBn.jpg"
-              alt=""
-            />
-            <div className={styles.controls}>
-              <button>
-                <FiShare2 />
-              </button>
-              <button>
-                <FiDownload />
-              </button>
-            </div>
-          </li>
-          <li className={styles.imageItem}>
-            <img
-              className={styles.image}
-              src="https://img-20.wfolio.com/AEnxMcCC4KcXVcEkWZg81k6vekA2BUDJXwtwlkO8CJ0/rs:fit:320:0:0/cb:v2/aHR0cDovL2Rpc2su/d2ZvbGlvLnJ1L2Rp/c2tzLzQxMTYzL3By/b2plY3RzLzE5MzA3/MzYvcHJldmlld3Mv/MTY3Mzc5MTU3OV8y/OTkwMzYuanBn.jpg"
-              alt=""
-            />
-            <div className={styles.controls}>
-              <button>
-                <FiShare2 />
-              </button>
-              <button>
-                <FiDownload />
-              </button>
-            </div>
-          </li>
-        </ul>
+        <Header projectId={project?.id} />
+
+        <Outlet />
       </section>
     </div>
   );
