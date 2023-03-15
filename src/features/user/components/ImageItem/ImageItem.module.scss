@@ -5,6 +5,11 @@
   object-fit: cover;
 }
 
+.imageItem {
+  position: relative;
+  overflow: hidden;
+}
+
 .imageItem:hover .controls {
   transform: translateY(0);
   height: 50px;

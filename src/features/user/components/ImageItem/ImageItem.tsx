@@ -12,7 +12,7 @@ export const ImageItem: React.FC<ImageItemProps> = ({
   handleClickLike
 }) => {
   return (
-    <>
+    <li className={styles.imageItem} key={image.id}>
       <img className={styles.image} src={image.path} alt="" />
       <div className={styles.controls}>
         <button>
@@ -23,6 +23,6 @@ export const ImageItem: React.FC<ImageItemProps> = ({
           <FiDownload />
         </button>
       </div>
-    </>
+    </li>
   );
 };
