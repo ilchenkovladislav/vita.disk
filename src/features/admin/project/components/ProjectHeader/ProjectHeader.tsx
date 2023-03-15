@@ -5,6 +5,7 @@ import { MdOutlineContentCopy } from 'react-icons/md';
 
 import styles from './ProjectHeader.module.scss';
 import { IProjectItem } from 'store/slices/projectSlice';
+import { baseClientUrl } from '../../../../../config';
 
 interface ProjectHeaderProps {
   project: IProjectItem;
@@ -22,7 +23,7 @@ export const ProjectHeader: React.FC<ProjectHeaderProps> = ({ project }) => {
         копировать ссылку
       </button>
       <a
-        href={`https://ou7g5wq1c17j.wfolio.pro/disk/${project?.link}`}
+        href={`${baseClientUrl}/page/${project?.link}`}
         target="_blank"
         rel="noopener noreferrer"
       >

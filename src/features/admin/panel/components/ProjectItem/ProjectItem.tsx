@@ -10,6 +10,7 @@ import { useActionCreators } from 'store/hooks';
 import { projectAsyncActions } from 'store/slices/projectSlice';
 import { IProjectItem } from 'store/slices/projectSlice';
 import styles from './ProjectItem.module.scss';
+import { baseClientUrl } from '../../../../../config';
 
 interface ProjectItemProps {
   project: IProjectItem;
@@ -25,7 +26,7 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
   const { id, title, link, dateCreation, dateShooting, cover, numberImages } =
     project;
   const asyncActions = useActionCreators(projectAsyncActions);
-  const href = `https://ou7g5wq1c17j.wfolio.pro/disk/${link}`;
+  const href = `${baseClientUrl}/page/${link}`;
 
   function onDeleteProject() {
     asyncActions.deleteProject(id);
