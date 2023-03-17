@@ -2,6 +2,8 @@ import { useStateSelector } from 'store/hooks';
 import { FolderList } from '../FolderList/FolderList';
 import styles from './Header.module.scss';
 
+import { DownloadMenu } from '../DownloadMenu/DownloadMenu';
+
 interface HeaderProps {
   projectId: number | undefined;
 }
@@ -17,7 +19,7 @@ export const Header: React.FC<HeaderProps> = ({ projectId }) => {
     <div className={styles.menu}>
       <FolderList folders={folders} />
 
-      <button>Скачать весь проект</button>
+      <DownloadMenu projectId={projectId} />
     </div>
   );
 };

@@ -172,12 +172,35 @@ const updateProjectSequence = createAppAsyncThunk<
     });
 });
 
+const downloadProjectZip = createAppAsyncThunk<void, { projectId: string }>(
+  'project/downloadProjectZip',
+  async ({ projectId }, { rejectWithValue }) => {
+    const formData = new FormData();
+    formData.append('projectId', projectId);
+
+    return await axios
+      .post<Blob>(`${_urlbase}/downloadProjectZip.php`, formData, {
+        responseType: 'blob'
+      })
+      .then((res) => {
+        const link = document.createElement('a');
+        link.download = '';
+        link.href = URL.createObjectURL(res.data);
+        link.click();
+      })
+      .catch((err: AxiosError<ServerResponse>) => {
+        rejectWithValue(`${err.message}. Не получается скачать архив с фото`);
+      });
+  }
+);
+
 export const projectAsyncActions = {
   getProjects,
   addProject,
   updateProject,
   deleteProject,
-  updateProjectSequence
+  updateProjectSequence,
+  downloadProjectZip
 };
 
 export const { reducer: projectReducer, actions: projectActions } =

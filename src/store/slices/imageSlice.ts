@@ -137,11 +137,41 @@ const deleteImage = createAppAsyncThunk<Id, Id>(
       )
 );
 
+const downloadFavouritesZip = createAppAsyncThunk<
+  void,
+  { favouritesImageTitles: string[]; projectId: string; folderId: string }
+>(
+  'images/downloadFavoutiresZip',
+  async (
+    { favouritesImageTitles, projectId, folderId },
+    { rejectWithValue }
+  ) => {
+    return await axios
+      .post<Blob>(
+        `${_urlbase}/downloadFavouritesZip.php`,
+        JSON.stringify({ favouritesImageTitles, projectId, folderId }),
+        {
+          responseType: 'blob'
+        }
+      )
+      .then((res) => {
+        const link = document.createElement('a');
+        link.download = '';
+        link.href = URL.createObjectURL(res.data);
+        link.click();
+      })
+      .catch((err: AxiosError<ServerResponse>) => {
+        rejectWithValue(`${err.message}. Не получается скачать архив с фото`);
+      });
+  }
+);
+
 export const imageAsyncActions = {
   getImages,
   addImage,
   updateImage,
-  deleteImage
+  deleteImage,
+  downloadFavouritesZip
 };
 
 export const { reducer: imageReducer, actions: imageActions } = imageSlice;
