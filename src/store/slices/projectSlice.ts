@@ -83,7 +83,7 @@ export const projectSlice = createSlice({
           for (const payload of action.payload) {
             const item = state.items.find((el) => el.id === payload.id);
 
-            if (item?.sequence) {
+            if (item) {
               item.sequence = payload.sequence;
             }
           }
