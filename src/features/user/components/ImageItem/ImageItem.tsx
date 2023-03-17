@@ -4,7 +4,7 @@ import styles from './ImageItem.module.scss';
 
 interface ImageItemProps {
   image: IImageItem;
-  handleClickLike: (id: number) => void;
+  handleClickLike: () => void;
 }
 
 export const ImageItem: React.FC<ImageItemProps> = ({
@@ -18,10 +18,15 @@ export const ImageItem: React.FC<ImageItemProps> = ({
         <button>
           <FiShare2 />
         </button>
-        <button onClick={() => handleClickLike(image.id)}>лайк</button>
-        <button>
-          <FiDownload />
+        <button
+          onClick={handleClickLike}
+          className={image.isFavourites ? styles.like : styles.unlike}
+        >
+          лайк
         </button>
+        <a href={image.path} download>
+          <FiDownload />
+        </a>
       </div>
     </li>
   );
