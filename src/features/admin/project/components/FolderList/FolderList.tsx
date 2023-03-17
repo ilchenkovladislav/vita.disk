@@ -43,7 +43,7 @@ export const FolderList: React.FC<FolderListProps> = ({ projectId }) => {
 
       const remoteProject = copyFolders.splice(source.index, 1)[0];
       copyFolders.splice(destination.index, 0, remoteProject);
-      copyFolders.forEach((project, idx) => (project.sequence = idx));
+      copyFolders.forEach((folder, idx) => (folder.sequence = idx));
 
       dispatch(actionsThunk.updateFolderSequence(copyFolders));
     }

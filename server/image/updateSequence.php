@@ -12,13 +12,15 @@ require "../utility/createServerResponse.php";
 $database = new Database();
 $db = $database->getConnection();
 
-$image = new Image($db);
-
 $data = json_decode(file_get_contents("php://input"));
 
 $res = true;
 
+$res_images = [];
+
 foreach ($data as $i) {
+    $image = new Image($db);
+
     $image->id = $i->id;
     $image->sequence = $i->sequence;
 
@@ -27,12 +29,14 @@ foreach ($data as $i) {
     if (!$res) {
         break;
     }
+
+    $res_images[] = $image;
 }
 
 if ($res) {
     http_response_code(200);
 
-    echo createServerResponse(200, "Изображения обновлены");
+    echo createServerResponse(200, "Изображения обновлены", $res_images);
 } else {
     http_response_code(503);
 

@@ -36,6 +36,8 @@ export const imageSlice = createSlice({
         (state, action: PayloadAction<ImageItem[]>) => {
           state.status = 'success';
           state.items = action.payload;
+
+          state.items.sort((a, b) => a.sequence - b.sequence);
         }
       )
       .addCase(
@@ -69,7 +71,23 @@ export const imageSlice = createSlice({
         if (idx === -1) return;
 
         state.items.splice(idx, 1);
-      });
+      })
+      .addCase(
+        updateImageSequence.fulfilled,
+        (state, action: PayloadAction<ImageItem[]>) => {
+          state.status = 'success';
+
+          for (const payload of action.payload) {
+            const item = state.items.find((el) => el.id === payload.id);
+
+            if (item) {
+              item.sequence = payload.sequence;
+            }
+          }
+
+          state.items.sort((a, b) => a.sequence - b.sequence);
+        }
+      );
   }
 });
 
@@ -137,6 +155,21 @@ const deleteImage = createAppAsyncThunk<Id, Id>(
       )
 );
 
+const updateImageSequence = createAppAsyncThunk<ImageItem[], ImageItem[]>(
+  'image/updateSequence',
+  async (images, { rejectWithValue }) => {
+    return await axios
+      .post<ServerResponse>(`${_urlbase}/updateSequence.php`, images)
+      .then((res) => res.data.records)
+      .catch((err: AxiosError<ServerResponse>) => {
+        console.log(err.message);
+        rejectWithValue(
+          `${err.message}. Не получается изменить очередность проектов`
+        );
+      });
+  }
+);
+
 const downloadFavouritesZip = createAppAsyncThunk<
   void,
   { favouritesImageTitles: string[]; projectId: string; folderId: string }
@@ -171,6 +204,7 @@ export const imageAsyncActions = {
   addImage,
   updateImage,
   deleteImage,
+  updateImageSequence,
   downloadFavouritesZip
 };
 
