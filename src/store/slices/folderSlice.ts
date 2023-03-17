@@ -35,6 +35,8 @@ export const folderSlice = createSlice({
         (state, action: PayloadAction<FolderItem[]>) => {
           state.status = 'success';
           state.items = action.payload;
+
+          state.items.sort((a, b) => a.sequence - b.sequence);
         }
       )
       .addCase(
@@ -74,7 +76,7 @@ export const folderSlice = createSlice({
           for (const payload of action.payload) {
             const item = state.items.find((el) => el.id === payload.id);
 
-            if (item?.sequence) {
+            if (item) {
               item.sequence = payload.sequence;
             }
           }
@@ -203,6 +205,7 @@ export const actionsThunk = {
   addFolder,
   updateFolder,
   deleteFolder,
+  updateFolderSequence,
   downloadFolderZip
 };
 
