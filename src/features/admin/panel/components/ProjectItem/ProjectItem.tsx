@@ -4,7 +4,6 @@ import { MdOutlineContentCopy } from 'react-icons/md';
 import { FiSettings } from 'react-icons/fi';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { BsDot } from 'react-icons/bs';
-import { FaArrowsAltV } from 'react-icons/fa';
 
 import { useActionCreators } from 'store/hooks';
 import { projectAsyncActions } from 'store/slices/projectSlice';
@@ -34,7 +33,6 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
 
   return (
     <>
-      <FaArrowsAltV />
       <div className={styles.project}>
         <Link to={`/project/${id}`} className={styles.imgLink}>
           <img className={styles.projectImg} src={cover} alt="" />

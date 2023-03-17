@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { FaArrowsAlt } from 'react-icons/fa';
-
 import { SortingMenu } from '../SortingMenu/SortingMenu';
 
 import styles from './TableHeader.module.scss';
@@ -20,7 +18,6 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ onChangeSearch }) => {
 
   return (
     <div className={styles.header}>
-      <FaArrowsAlt />
       <input
         className={styles.search}
         type="search"
