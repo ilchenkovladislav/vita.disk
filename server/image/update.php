@@ -21,14 +21,18 @@ $image->id = $data->id;
 $image->title = $data->title;
 $image->path = $data->path;
 $image->numberDownloads = $data->numberDownloads;
-$image->isFavourites = $data->isFavourites;
+if ($data->isFavourites === true) {
+    $image->isFavourites = 1;
+} else {
+    $image->isFavourites = 0;
+}
 $image->sequence = $data->sequence;
 $image->folderId = $data->folderId;
 
 if ($image->update()) {
     http_response_code(200);
 
-    echo createServerResponse(200, "Изображение обновлено");
+    echo createServerResponse(200, "Изображение обновлено", $data);
 } else {
     http_response_code(503);
 

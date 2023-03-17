@@ -50,7 +50,7 @@ function createRecords($db, $dir, &$errors)
         $p = "http://vita.disk/files/{$_POST["projectId"]}/{$_POST["folderId"]}/{$filename}";
 
         $image->title = $filename;
-//        $image->path = "{$dir}/{$filename}";
+        //        $image->path = "{$dir}/{$filename}";
         $image->path = "http://vita.disk/files/{$_POST["projectId"]}/{$_POST["folderId"]}/{$filename}";
         $image->folderId = $_POST["folderId"];
         $image->sequence = $image->getTotalNumber();
@@ -62,7 +62,7 @@ function createRecords($db, $dir, &$errors)
 
         $image->id = $image->getLastId();
         $image->numberDownloads = 0;
-        $image->isFavourites = 0;
+        $image->isFavourites = false;
 
         $images[] = $image;
     }

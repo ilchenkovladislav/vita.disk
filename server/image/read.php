@@ -25,7 +25,7 @@ if ($num > 0) {
             "title" => $title,
             "path" => $path,
             "numberDownloads" => $numberDownloads,
-            "isFavourites" => $isFavourites,
+            "isFavourites" => (bool) (int) $isFavourites,
             "sequence" => $sequence,
             "folderId" => $folderId
         );
