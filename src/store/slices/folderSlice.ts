@@ -172,18 +172,18 @@ const updateFolderSequence = createAppAsyncThunk<FolderItem[], FolderItem[]>(
   }
 );
 
-const downloadZip = createAppAsyncThunk<
+const downloadFolderZip = createAppAsyncThunk<
   void,
   { projectId: string; folderId: string }
 >(
-  'folders/downloadZip',
+  'folders/downloadFolderZip',
   async ({ projectId, folderId }, { rejectWithValue }) => {
     const formData = new FormData();
     formData.append('projectId', projectId);
     formData.append('folderId', folderId);
 
     return await axios
-      .post<Blob>(`${_urlbase}/downloadZip.php`, formData, {
+      .post<Blob>(`${_urlbase}/downloadFolderZip.php`, formData, {
         responseType: 'blob'
       })
       .then((res) => {
@@ -203,7 +203,7 @@ export const actionsThunk = {
   addFolder,
   updateFolder,
   deleteFolder,
-  downloadZip
+  downloadFolderZip
 };
 
 export const { reducer: folderReducer, actions: folderActions } = folderSlice;

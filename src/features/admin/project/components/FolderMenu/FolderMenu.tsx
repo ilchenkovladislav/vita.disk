@@ -46,7 +46,7 @@ export const FolderMenu: React.FC<FolderMenuProps> = ({
   }
 
   function handleDownloadClick() {
-    actions.downloadZip({ projectId, folderId });
+    actions.downloadFolderZip({ projectId, folderId });
   }
 
   function handleDeleteClick() {
