@@ -2,15 +2,15 @@ import { useState } from 'react';
 
 import { FilePond, registerPlugin } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
-import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+// import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
+// import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 
 import { imageAsyncActions } from 'store/slices/imageSlice';
 import { useActionCreators } from 'store/hooks';
 import styles from './ImageUploader.module.scss';
 
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+// registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 interface ImageUploaderProps {
   projectId: number;
@@ -29,13 +29,17 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     const readyFiles = files.map((el) => el.file);
     if (!readyFiles) return;
 
-    console.log(readyFiles);
     actions.addImage({ projectId, folderId, images: readyFiles });
     setFiles([]);
   }
 
   return (
-    <div>
+    <div className={styles.filepond}>
+      {files.length ? (
+        <button className={styles.submit} onClick={submitFiles}>
+          Отправить
+        </button>
+      ) : null}
       <FilePond
         files={files}
         // @ts-ignore
@@ -45,9 +49,9 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         name="files"
         allowReorder
         instantUpload={false}
-        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+        labelIdle='Перетащите изображения или <span class="filepond--label-action">нажмите</span>'
+        credits={false}
       />
-      <button onClick={submitFiles}>Отправить</button>
     </div>
   );
 };

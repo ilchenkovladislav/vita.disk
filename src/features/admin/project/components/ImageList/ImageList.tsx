@@ -1,9 +1,10 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useParams } from 'react-router-dom';
 import { useStateSelector } from 'store/hooks';
+import { MdContentCopy, MdOutlineFileDownload } from 'react-icons/md';
+import { AiOutlineDelete } from 'react-icons/ai';
 
 import styles from './ImageList.module.scss';
-import { ImageUploader } from 'features/admin/project/components/ImageUploader/ImageUploader';
 
 import { useActionCreators, useAppDispatch } from 'store/hooks';
 import { imageAsyncActions, ImageItem } from 'store/slices/imageSlice';
@@ -90,7 +91,7 @@ export const ImageList = () => {
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable
         droppableId={new Date().getMilliseconds().toString()}
-        direction="horizontal"
+        direction={'horizontal'}
       >
         {(provided) => (
           <ul
@@ -98,14 +99,6 @@ export const ImageList = () => {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            <li>
-              {
-                <ImageUploader
-                  projectId={Number(projectId)}
-                  folderId={Number(folderId)}
-                />
-              }
-            </li>
             {images.map((image, idx) => (
               <Draggable
                 draggableId={image.id.toString()}
@@ -125,18 +118,30 @@ export const ImageList = () => {
                     {...provided.draggableProps}
                   >
                     <img className={styles.img} src={image.path} alt="" />
+                    <p className={styles.title}>{image.title}</p>
                     <div className={styles.control}>
-                      <a href={image.path} download>
-                        скачать
+                      <a
+                        className={styles.controlBtn}
+                        href={image.path}
+                        download
+                      >
+                        <MdOutlineFileDownload />
                       </a>
-                      <button>скопировать ссылку</button>
-                      <button onClick={() => handleDeleteClick(image.id)}>
-                        удалить
+                      <button className={styles.controlBtn}>
+                        <MdContentCopy />
+                      </button>
+                      <button
+                        className={styles.controlBtn}
+                        onClick={() => handleDeleteClick(image.id)}
+                      >
+                        <AiOutlineDelete />
                       </button>
                     </div>
-                    <div className={styles.downloads}>
-                      {image.numberDownloads} раз скачали
-                    </div>
+                    {image.numberDownloads ? (
+                      <div className={styles.downloads}>
+                        {image.numberDownloads} <MdOutlineFileDownload />
+                      </div>
+                    ) : null}
                     <input
                       className={styles.check}
                       onChange={(e) => handleCheckboxClick(e, image.id)}
@@ -153,10 +158,16 @@ export const ImageList = () => {
           </ul>
         )}
       </Droppable>
-      <div className={selectedImages.length ? '' : styles.pop}>
-        <button onClick={handleDeleteAll}>удалить выбранное</button>
-        <button onClick={handleSelectAll}>выделить всё</button>
-        <button onClick={handleDeselectAll}>снять выделение</button>
+      <div className={selectedImages.length ? styles.show : styles.hide}>
+        <button className={styles.selectedAction} onClick={handleSelectAll}>
+          выделить всё
+        </button>
+        <button className={styles.selectedAction} onClick={handleDeselectAll}>
+          снять выделение
+        </button>
+        <button className={styles.selectedAction} onClick={handleDeleteAll}>
+          удалить выбранное
+        </button>
       </div>
     </DragDropContext>
   );
