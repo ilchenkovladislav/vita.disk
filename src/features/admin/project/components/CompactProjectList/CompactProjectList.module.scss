@@ -2,22 +2,31 @@
   list-style: none;
   display: grid;
   width: 300px;
-  background-color: #fcfcfc;
+  background-color: var(--background-color);
+  margin-top: 40px;
 
   li {
     border-bottom: 1px solid #eee;
     padding: 15px 20px;
+
+    &:hover {
+      background-color: #fafafa;
+    }
   }
 }
 
 .link {
   text-decoration: none;
-  color: var(--color-text);
+  color: var(--text-color);
 }
 
 .folder {
   display: grid;
   grid-template-columns: max-content 1fr;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
+}
+
+.numberImages {
+  color: #bbb;
 }

@@ -4,22 +4,16 @@
   grid-template-columns: repeat(4, max-content);
   gap: 20px;
 
-  li {
-    &:hover:not(.current) {
-      border-bottom: 3px solid #777;
-    }
-  }
-
-  .current {
-    border-bottom: 3px solid lightblue;
-  }
-
   a {
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 10px;
-    color: var(--color-text);
+    color: var(--text-color);
+
+    &:hover {
+      color: darkblue;
+    }
   }
 
   button {

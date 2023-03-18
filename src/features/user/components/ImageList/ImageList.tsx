@@ -41,7 +41,11 @@ export const ImageList = () => {
   return (
     <ul className={styles.imageList}>
       {images.map((img) => (
-        <ImageItem image={img} handleClickLike={() => handleClickLike(img)} />
+        <ImageItem
+          image={img}
+          handleClickLike={() => handleClickLike(img)}
+          key={img.id}
+        />
       ))}
     </ul>
   );

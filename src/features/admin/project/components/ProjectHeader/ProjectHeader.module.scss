@@ -1,7 +1,41 @@
 .header {
-  padding: 40px;
+  padding: 40px 0;
   display: grid;
   grid-template-columns: max-content 1fr max-content max-content;
   align-items: center;
   gap: 20px;
+}
+
+.backLink {
+  font-size: 30px;
+  color: var(--text-color);
+  padding: 10px;
+  transition: background-color 0.1s;
+
+  &:hover {
+    background-color: #fafafa;
+    border-radius: 5px;
+  }
+}
+
+.copy {
+  background-color: #fff;
+  cursor: pointer;
+  padding: 10px 15px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: inherit;
+}
+
+.site {
+  color: var(--text-color);
+  background-color: #fff;
+  cursor: pointer;
+  padding: 10px 15px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  text-decoration: none;
 }

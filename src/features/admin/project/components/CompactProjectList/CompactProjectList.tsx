@@ -17,8 +17,8 @@ export const CompactProjectList = () => {
             <div className={styles.folder}>
               <BsFolder />
               <div>
-                <h3>{title}</h3>
-                <p>{numberImages} фото</p>
+                <p>{title}</p>
+                <p className={styles.numberImages}>{numberImages} фото</p>
               </div>
             </div>
           </Link>

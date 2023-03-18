@@ -14,15 +14,16 @@ interface ProjectHeaderProps {
 export const ProjectHeader: React.FC<ProjectHeaderProps> = ({ project }) => {
   return (
     <div className={styles.header}>
-      <Link to="/">
+      <Link to="/" className={styles.backLink}>
         <HiOutlineArrowNarrowLeft />
       </Link>
       <h1>{project?.title}</h1>
-      <button>
+      <button className={styles.copy}>
         <MdOutlineContentCopy />
-        копировать ссылку
+        скопировать ссылку
       </button>
       <a
+        className={styles.site}
         href={`${baseClientUrl}/page/${project?.link}`}
         target="_blank"
         rel="noopener noreferrer"

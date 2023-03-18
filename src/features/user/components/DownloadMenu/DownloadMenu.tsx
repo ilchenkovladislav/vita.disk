@@ -1,6 +1,13 @@
-import { BsEye } from 'react-icons/bs';
+import { BsDownload } from 'react-icons/bs';
+import { MdKeyboardArrowDown } from 'react-icons/md';
+import { AiOutlineHeart } from 'react-icons/ai';
 
-import styles from '../../../admin/project/components/FolderMenu/FolderMenu.module.scss';
+import {
+  HiOutlineFolderDownload,
+  HiOutlineDocumentDownload
+} from 'react-icons/hi';
+
+import styles from './DownloadMenu.module.scss';
 import { useStateSelector } from 'store/hooks';
 
 import { Menu } from '@headlessui/react';
@@ -21,6 +28,10 @@ export const DownloadMenu: React.FC<DownloadMenuProps> = ({ projectId }) => {
   const projectActions = useActionCreators(projectAsyncActions);
   const imageActions = useActionCreators(imageAsyncActions);
 
+  const numberFolders = useStateSelector((state) =>
+    state.folder.items.filter((folder) => folder.projectId === projectId)
+  ).length;
+
   const folder = useStateSelector((state) =>
     state.folder.items.find(
       (folder) =>
@@ -34,6 +45,8 @@ export const DownloadMenu: React.FC<DownloadMenuProps> = ({ projectId }) => {
       (img) => Number(img.folderId) === Number(folder?.id)
     )
   );
+
+  const hasFavouriteImg = images.find((img) => img.isFavourites);
 
   function handleDownloadProjectClick() {
     projectActions.downloadProjectZip({ projectId });
@@ -55,13 +68,12 @@ export const DownloadMenu: React.FC<DownloadMenuProps> = ({ projectId }) => {
     });
   }
 
-  const numberFavourite = 1;
-  const numberFolders = 2;
-
   return (
     <Menu>
       <div className={styles.container}>
-        <Menu.Button className={styles.btn}>Скачать</Menu.Button>
+        <Menu.Button className={styles.btn}>
+          скачать <MdKeyboardArrowDown />
+        </Menu.Button>
 
         <Menu.Items className={styles.list}>
           <Menu.Item>
@@ -70,7 +82,7 @@ export const DownloadMenu: React.FC<DownloadMenuProps> = ({ projectId }) => {
                 className={`${styles.item} ${active && styles.itemActive}`}
                 onClick={handleDownloadProjectClick}
               >
-                <BsEye /> скачать весь проект
+                <HiOutlineDocumentDownload /> скачать весь проект
               </button>
             )}
           </Menu.Item>
@@ -81,19 +93,19 @@ export const DownloadMenu: React.FC<DownloadMenuProps> = ({ projectId }) => {
                   className={`${styles.item} ${active && styles.itemActive}`}
                   onClick={handleDownloadFolderClick}
                 >
-                  <BsEye /> скачать текущую папку
+                  <HiOutlineFolderDownload /> скачать текущую папку
                 </button>
               )}
             </Menu.Item>
           ) : null}
-          {numberFavourite ? (
+          {hasFavouriteImg ? (
             <Menu.Item>
               {({ active }) => (
                 <button
                   className={`${styles.item} ${active && styles.itemActive}`}
                   onClick={handleDownloadFavouriteClick}
                 >
-                  <BsEye /> скачать избранные фото
+                  <AiOutlineHeart /> скачать избранные фото
                 </button>
               )}
             </Menu.Item>

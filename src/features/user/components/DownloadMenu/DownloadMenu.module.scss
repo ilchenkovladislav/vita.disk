@@ -1,0 +1,48 @@
+.btn {
+  font: inherit;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 15px 40px;
+  background-color: transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.container {
+  position: relative;
+  justify-self: center;
+}
+
+.list {
+  position: absolute;
+  display: block;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0 10px 30px rgba(#000, 0.06);
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.item {
+  padding: 15px 20px;
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border-color);
+  font: inherit;
+}
+
+.itemActive {
+  background-color: #eee;
+}

@@ -1,4 +1,6 @@
 import { FiDownload, FiShare2 } from 'react-icons/fi';
+import { AiOutlineHeart } from 'react-icons/ai';
+import { MdOutlineContentCopy } from 'react-icons/md';
 import { ImageItem as IImageItem } from 'store/slices/imageSlice';
 import styles from './ImageItem.module.scss';
 
@@ -12,19 +14,21 @@ export const ImageItem: React.FC<ImageItemProps> = ({
   handleClickLike
 }) => {
   return (
-    <li className={styles.imageItem} key={image.id}>
+    <li className={styles.imageItem}>
       <img className={styles.image} src={image.path} alt="" />
       <div className={styles.controls}>
-        <button>
-          <FiShare2 />
+        <button className={styles.button}>
+          <MdOutlineContentCopy />
         </button>
         <button
           onClick={handleClickLike}
-          className={image.isFavourites ? styles.like : styles.unlike}
+          className={`${styles.button} ${
+            image.isFavourites ? styles.like : styles.unlike
+          }`}
         >
-          лайк
+          <AiOutlineHeart />
         </button>
-        <a href={image.path} download>
+        <a className={styles.button} href={image.path} download>
           <FiDownload />
         </a>
       </div>
