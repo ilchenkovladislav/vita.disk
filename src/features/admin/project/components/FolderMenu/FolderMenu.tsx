@@ -1,4 +1,4 @@
-import { MdOutlineContentCopy } from 'react-icons/md';
+import { MdOutlineContentCopy, MdOutlineMoreVert } from 'react-icons/md';
 import { BsDownload, BsEye, BsPencil, BsTrash } from 'react-icons/bs';
 
 import styles from './FolderMenu.module.scss';
@@ -56,7 +56,9 @@ export const FolderMenu: React.FC<FolderMenuProps> = ({
   return (
     <Menu>
       <div className={styles.container}>
-        <Menu.Button className={styles.btn}>:</Menu.Button>
+        <Menu.Button className={styles.btn}>
+          <MdOutlineMoreVert />
+        </Menu.Button>
 
         <Menu.Items className={styles.list}>
           <Menu.Item>
