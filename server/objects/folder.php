@@ -11,6 +11,7 @@ class Folder
     public $description;
     public $sequence;
     public $projectId;
+    public $numberImages;
 
     public function __construct($db)
     {
@@ -128,5 +129,20 @@ class Folder
         $stmt->execute();
 
         return (int) $stmt->fetch(PDO::FETCH_ASSOC)["count"];
+    }
+
+    function getTotalNumberImages($id)
+    {
+        $query = "SELECT COUNT(*) as count FROM images WHERE folderId = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":id", $id);
+
+        if ($stmt->execute()) {
+            return (int) $stmt->fetch(PDO::FETCH_ASSOC)["count"];
+        }
+
+        return false;
     }
 }

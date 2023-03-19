@@ -12,6 +12,7 @@ export interface FolderItem {
   description: string;
   sequence: number;
   projectId: number;
+  numberImages: number;
 }
 
 interface FolderState {

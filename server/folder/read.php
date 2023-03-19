@@ -26,7 +26,8 @@ if ($num > 0) {
             "link" => $link,
             "description" => $description,
             "sequence" => $sequence,
-            "projectId" => $projectId
+            "projectId" => $projectId,
+            "numberImages" => $folder->getTotalNumberImages($id)
         );
 
         array_push($folders_arr, $folder_item);

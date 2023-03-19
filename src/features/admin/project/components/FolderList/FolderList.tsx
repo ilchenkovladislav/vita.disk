@@ -61,7 +61,7 @@ export const FolderList: React.FC<FolderListProps> = ({ projectId }) => {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {folders.map(({ id, title }, idx) => (
+            {folders.map(({ id, title, numberImages }, idx) => (
               <Draggable draggableId={id.toString()} key={id} index={idx}>
                 {(provided) => (
                   <li
@@ -73,7 +73,7 @@ export const FolderList: React.FC<FolderListProps> = ({ projectId }) => {
                   >
                     <Link to={`./folder/${id}`}>
                       <h4>{title}</h4>
-                      <p>47 фото</p>
+                      <p>{numberImages} фото</p>
                     </Link>
                     <FolderMenu
                       projectId={projectId}
