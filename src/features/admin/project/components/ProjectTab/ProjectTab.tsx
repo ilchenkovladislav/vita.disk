@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useStateSelector } from 'store/hooks';
 
 import { Outlet } from 'react-router-dom';
@@ -7,9 +7,9 @@ import { FolderList } from '../FolderList/FolderList';
 import { ImageUploader } from '../ImageUploader/ImageUploader';
 
 export const ProjectTab: React.FC = () => {
-  const { projectId } = useParams();
+  const { projectId, folderId } = useParams();
 
-  const folderId = useStateSelector(
+  const firstFolderId = useStateSelector(
     (state) =>
       state.folder.items.find(
         (folder) => Number(folder.projectId) === Number(projectId)
@@ -17,10 +17,15 @@ export const ProjectTab: React.FC = () => {
   );
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    navigate(`folder/${folderId}`);
-  }, [folderId]);
+    if (!firstFolderId) return;
+
+    if (!folderId) {
+      navigate(`folder/${firstFolderId}`);
+    }
+  }, [location]);
 
   return (
     <div>

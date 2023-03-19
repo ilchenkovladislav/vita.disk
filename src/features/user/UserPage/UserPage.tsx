@@ -1,5 +1,5 @@
 import styles from './UserPage.module.scss';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useActionCreators, useStateSelector } from 'store/hooks';
 import { useEffect } from 'react';
 import { actionsThunk } from 'store/slices/folderSlice';
@@ -7,11 +7,15 @@ import { imageAsyncActions } from 'store/slices/imageSlice';
 import { Header } from '../components/Header/Header';
 
 export const UserPage = () => {
-  const { userLink } = useParams();
+  const { userLink, folderLink } = useParams();
 
   const project = useStateSelector((state) =>
     state.project.items.find((project) => project.link === userLink)
   );
+
+  const firstFolderLink = useStateSelector((state) =>
+    state.folder.items.find((folder) => folder.projectId === project?.id)
+  )?.link;
 
   const folderStatus = useStateSelector((state) => state.folder.status);
   const actions = useActionCreators(actionsThunk);
@@ -28,6 +32,17 @@ export const UserPage = () => {
       imageActions.getImages();
     }
   }, [folderStatus]);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!firstFolderLink) return;
+
+    if (!folderLink) {
+      navigate(`${firstFolderLink}`);
+    }
+  }, [location, firstFolderLink]);
 
   return (
     <div>
