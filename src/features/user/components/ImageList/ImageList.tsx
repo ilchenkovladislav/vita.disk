@@ -4,6 +4,9 @@ import { ImageItem } from '../ImageItem/ImageItem';
 import styles from './ImageList.module.scss';
 
 import { useAppDispatch } from 'store/hooks';
+
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+
 import {
   imageAsyncActions,
   ImageItem as IImageItem
@@ -40,13 +43,15 @@ export const ImageList = () => {
 
   return (
     <ul className={styles.imageList}>
-      {images.map((img) => (
-        <ImageItem
-          image={img}
-          handleClickLike={() => handleClickLike(img)}
-          key={img.id}
-        />
-      ))}
+      <Masonry columnsCount={3} gutter="10px">
+        {images.map((img) => (
+          <ImageItem
+            image={img}
+            handleClickLike={() => handleClickLike(img)}
+            key={img.id}
+          />
+        ))}
+      </Masonry>
     </ul>
   );
 };
