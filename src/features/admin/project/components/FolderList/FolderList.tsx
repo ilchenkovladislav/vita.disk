@@ -71,7 +71,7 @@ export const FolderList: React.FC<FolderListProps> = ({ projectId }) => {
                     {...provided.dragHandleProps}
                     {...provided.draggableProps}
                   >
-                    <Link to={`./folder/${id}`}>
+                    <Link to={`${id}`}>
                       <h4>{title}</h4>
                       <p>{numberImages} фото</p>
                     </Link>
