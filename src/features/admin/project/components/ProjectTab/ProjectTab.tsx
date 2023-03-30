@@ -23,7 +23,7 @@ export const ProjectTab: React.FC = () => {
     if (!firstFolderId) return;
 
     if (!folderId) {
-      navigate(`folder/${firstFolderId}`);
+      navigate(`${firstFolderId}`);
     }
   }, [location]);
 

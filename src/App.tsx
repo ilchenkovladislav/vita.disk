@@ -29,13 +29,13 @@ export default function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<AdminPanel />} />
-        <Route path="/project/:projectId" element={<ProjectPage />}>
-          <Route path="" element={<ProjectTab />}>
-            <Route path="folder/:folderId" element={<ImageList />} />
+        <Route path="project/:projectId" element={<ProjectPage />}>
+          <Route path="folder" element={<ProjectTab />}>
+            <Route path=":folderId" element={<ImageList />} />
           </Route>
           <Route path="settings" element={<Settings />} />
           <Route path="favourites" element={<ProjectTab />}>
-            <Route path="folder/:folderId" element={<FavouriteImageList />} />
+            <Route path=":folderId" element={<FavouriteImageList />} />
           </Route>
           <Route path="design" element={<h1>Дезигн</h1>} />
         </Route>

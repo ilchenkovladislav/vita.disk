@@ -13,7 +13,7 @@ export const CompactProjectList = () => {
     <ul className={styles.folders}>
       {projects.map(({ id, title, numberImages }) => (
         <li key={id}>
-          <Link to={`/project/${id}`} className={styles.link}>
+          <Link to={`/project/${id}/folder`} className={styles.link}>
             <div className={styles.folder}>
               <BsFolder />
               <div>

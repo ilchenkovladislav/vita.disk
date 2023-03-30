@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { BsFolder } from 'react-icons/bs';
 import { AiOutlineHeart, AiOutlineSetting } from 'react-icons/ai';
@@ -10,7 +10,7 @@ const tabItems = [
   {
     title: 'проект',
     icon: <BsFolder />,
-    link: './'
+    link: 'folder'
   },
   {
     title: 'избранное',
@@ -35,10 +35,13 @@ export const TabList = () => {
       <ul className={styles.tabs}>
         {tabItems.map(({ link, icon, title }, idx) => (
           <li key={idx}>
-            <Link to={`./${link}`}>
+            <NavLink
+              to={`./${link}`}
+              className={({ isActive }) => (isActive ? styles.active : '')}
+            >
               {icon}
               {title}
-            </Link>
+            </NavLink>
           </li>
         ))}
       </ul>

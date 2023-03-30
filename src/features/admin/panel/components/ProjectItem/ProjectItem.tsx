@@ -34,10 +34,10 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
   return (
     <>
       <div className={styles.project}>
-        <Link to={`/project/${id}`} className={styles.imgLink}>
+        <Link to={`/project/${id}/folder`} className={styles.imgLink}>
           <img className={styles.projectImg} src={cover} alt="" />
         </Link>
-        <Link to={`/project/${id}`} className={styles.titleLink}>
+        <Link to={`/project/${id}/folder`} className={styles.titleLink}>
           <h3 className={styles.projectTitle}>{title}</h3>
         </Link>
         <p className={styles.projectDateCreate}>
