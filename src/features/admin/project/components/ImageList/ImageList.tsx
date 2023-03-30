@@ -6,9 +6,11 @@ import { AiOutlineDelete } from 'react-icons/ai';
 
 import styles from './ImageList.module.scss';
 
-import { useActionCreators, useAppDispatch } from 'store/hooks';
+import { useActionCreators } from 'store/hooks';
 import { imageAsyncActions, ImageItem } from 'store/slices/imageSlice';
 import { useEffect, useState } from 'react';
+
+import { ImageUploader } from '../ImageUploader/ImageUploader';
 
 export const ImageList = () => {
   const { projectId, folderId } = useParams();
@@ -88,87 +90,94 @@ export const ImageList = () => {
   }
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable
-        droppableId={new Date().getMilliseconds().toString()}
-        direction={'horizontal'}
-      >
-        {(provided) => (
-          <ul
-            className={styles.images}
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            {images.map((image, idx) => (
-              <Draggable
-                draggableId={image.id.toString()}
-                key={image.id}
-                index={idx}
-              >
-                {(provided) => (
-                  <li
-                    className={
-                      selectedImages.includes(image.id)
-                        ? styles.itemSelected
-                        : styles.item
-                    }
-                    key={image.id}
-                    ref={provided.innerRef}
-                    {...provided.dragHandleProps}
-                    {...provided.draggableProps}
-                  >
-                    <img className={styles.img} src={image.path} alt="" />
-                    <p className={styles.title}>{image.title}</p>
-                    <div className={styles.control}>
-                      <a
-                        className={styles.controlBtn}
-                        href={image.path}
-                        download
-                      >
-                        <MdOutlineFileDownload />
-                      </a>
-                      <button className={styles.controlBtn}>
-                        <MdContentCopy />
-                      </button>
-                      <button
-                        className={styles.controlBtn}
-                        onClick={() => handleDeleteClick(image.id)}
-                      >
-                        <AiOutlineDelete />
-                      </button>
-                    </div>
-                    {image.numberDownloads ? (
-                      <div className={styles.downloads}>
-                        {image.numberDownloads} <MdOutlineFileDownload />
+    <div>
+      <ImageUploader
+        projectId={Number(projectId)}
+        folderId={Number(folderId)}
+      />
+
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable
+          droppableId={new Date().getMilliseconds().toString()}
+          direction={'horizontal'}
+        >
+          {(provided) => (
+            <ul
+              className={styles.images}
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {images.map((image, idx) => (
+                <Draggable
+                  draggableId={image.id.toString()}
+                  key={image.id}
+                  index={idx}
+                >
+                  {(provided) => (
+                    <li
+                      className={
+                        selectedImages.includes(image.id)
+                          ? styles.itemSelected
+                          : styles.item
+                      }
+                      key={image.id}
+                      ref={provided.innerRef}
+                      {...provided.dragHandleProps}
+                      {...provided.draggableProps}
+                    >
+                      <img className={styles.img} src={image.path} alt="" />
+                      <p className={styles.title}>{image.title}</p>
+                      <div className={styles.control}>
+                        <a
+                          className={styles.controlBtn}
+                          href={image.path}
+                          download
+                        >
+                          <MdOutlineFileDownload />
+                        </a>
+                        <button className={styles.controlBtn}>
+                          <MdContentCopy />
+                        </button>
+                        <button
+                          className={styles.controlBtn}
+                          onClick={() => handleDeleteClick(image.id)}
+                        >
+                          <AiOutlineDelete />
+                        </button>
                       </div>
-                    ) : null}
-                    <input
-                      className={styles.check}
-                      onChange={(e) => handleCheckboxClick(e, image.id)}
-                      type="checkbox"
-                      checked={selectedImages.includes(image.id)}
-                      name=""
-                      id=""
-                    />
-                  </li>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </ul>
-        )}
-      </Droppable>
-      <div className={selectedImages.length ? styles.show : styles.hide}>
-        <button className={styles.selectedAction} onClick={handleSelectAll}>
-          выделить всё
-        </button>
-        <button className={styles.selectedAction} onClick={handleDeselectAll}>
-          снять выделение
-        </button>
-        <button className={styles.selectedAction} onClick={handleDeleteAll}>
-          удалить выбранное
-        </button>
-      </div>
-    </DragDropContext>
+                      {image.numberDownloads ? (
+                        <div className={styles.downloads}>
+                          {image.numberDownloads} <MdOutlineFileDownload />
+                        </div>
+                      ) : null}
+                      <input
+                        className={styles.check}
+                        onChange={(e) => handleCheckboxClick(e, image.id)}
+                        type="checkbox"
+                        checked={selectedImages.includes(image.id)}
+                        name=""
+                        id=""
+                      />
+                    </li>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </ul>
+          )}
+        </Droppable>
+        <div className={selectedImages.length ? styles.show : styles.hide}>
+          <button className={styles.selectedAction} onClick={handleSelectAll}>
+            выделить всё
+          </button>
+          <button className={styles.selectedAction} onClick={handleDeselectAll}>
+            снять выделение
+          </button>
+          <button className={styles.selectedAction} onClick={handleDeleteAll}>
+            удалить выбранное
+          </button>
+        </div>
+      </DragDropContext>
+    </div>
   );
 };

@@ -4,7 +4,6 @@ import { useStateSelector } from 'store/hooks';
 
 import { Outlet } from 'react-router-dom';
 import { FolderList } from '../FolderList/FolderList';
-import { ImageUploader } from '../ImageUploader/ImageUploader';
 
 export const ProjectTab: React.FC = () => {
   const { projectId, folderId } = useParams();
@@ -30,10 +29,7 @@ export const ProjectTab: React.FC = () => {
   return (
     <div>
       <FolderList projectId={Number(projectId)} />
-      <ImageUploader
-        projectId={Number(projectId)}
-        folderId={Number(folderId)}
-      />
+
       <Outlet />
     </div>
   );
