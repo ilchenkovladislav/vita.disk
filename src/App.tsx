@@ -16,10 +16,6 @@ import { Design } from 'features/admin/project/components/Design/Design';
 
 import { ImageList as IL } from 'features/user/components/ImageList/ImageList';
 
-// test3
-// test
-// test2
-
 export default function App() {
   const projectsStatus = useStateSelector((state) => state.project.status);
   const actions = useActionCreators(projectAsyncActions);
