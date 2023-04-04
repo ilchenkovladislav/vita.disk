@@ -12,6 +12,7 @@ import { ImageList } from 'features/admin/project/components/ImageList/ImageList
 import { FavouriteImageList } from 'features/admin/project/components/FavouriteImageList/FavouriteImageList';
 import { Settings } from 'features/admin/project/components/Settings/Settings';
 import { UserPage } from 'features/user/UserPage/UserPage';
+import { Design } from 'features/admin/project/components/Design/Design';
 
 import { ImageList as IL } from 'features/user/components/ImageList/ImageList';
 
@@ -37,7 +38,7 @@ export default function App() {
           <Route path="favourites" element={<ProjectTab />}>
             <Route path=":folderId" element={<FavouriteImageList />} />
           </Route>
-          <Route path="design" element={<h1>Дезигн</h1>} />
+          <Route path="design" element={<Design />} />
         </Route>
         <Route path="/page/:userLink" element={<UserPage />}>
           <Route path=":folderLink" element={<IL />} />

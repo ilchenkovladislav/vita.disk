@@ -1,0 +1,32 @@
+.title {
+  margin-top: 5px;
+  text-align: center;
+  color: #999;
+}
+
+.label {
+  width: 200px;
+  cursor: pointer;
+}
+
+.radio {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+}
+
+.any {
+  position: relative;
+  padding: 20px;
+  background-color: #fafafa;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+
+  img {
+    max-width: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    margin: 0 auto;
+  }
+}
