@@ -19,8 +19,6 @@ import { ImageList as IL } from 'features/user/components/ImageList/ImageList';
 export default function App() {
   const projectsStatus = useStateSelector((state) => state.project.status);
   const actions = useActionCreators(projectAsyncActions);
-  // check rebase
-  // check sqoosh
 
   useEffect(() => {
     if (projectsStatus === 'init') {
