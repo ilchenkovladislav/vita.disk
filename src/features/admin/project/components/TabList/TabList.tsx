@@ -36,7 +36,7 @@ export const TabList = () => {
         {tabItems.map(({ link, icon, title }, idx) => (
           <li key={idx}>
             <NavLink
-              to={`./${link}`}
+              to={`${link}`}
               className={({ isActive }) => (isActive ? styles.active : '')}
             >
               {icon}

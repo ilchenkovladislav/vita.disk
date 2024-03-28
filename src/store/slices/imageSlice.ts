@@ -126,7 +126,6 @@ const addImage = createAppAsyncThunk<
     return await axios
       .post<ServerResponse>(`${_urlbase}/create.php`, formData)
       .then((res) => res.data.records)
-      // .then((res) => console.log(res.data))
       .catch((err: AxiosError<ServerResponse>) =>
         rejectWithValue(`${err.message}. Не получается добавить изображения`)
       );
